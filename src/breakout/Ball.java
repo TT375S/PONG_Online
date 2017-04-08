@@ -2,6 +2,7 @@ package breakout;
 
 import java.awt.Graphics2D;
 
+
 public class Ball extends Sprite{
 	int r;
 	int R;
@@ -10,7 +11,7 @@ public class Ball extends Sprite{
 	final static double XMAX = VMAX - 1;
 	double vx;
 	double vy;
-	
+
 	public Ball(double x, double y) {
 		super(x, y);
 		this.r = 10;
@@ -18,7 +19,7 @@ public class Ball extends Sprite{
 		vx = 3;
 		vy = Math.sqrt(VMAX2-vx*vx);
 	}
-	
+
 	@Override
 	public void update() {
 //		double oldx = x;
@@ -27,12 +28,16 @@ public class Ball extends Sprite{
 		y += vy;
 		checkOver();
 	}
-	
+
+	//ボールが衝突した時に反射する。反射する角度は常に入射角=反射角
+	//動いてるバーなど、当たったものの速度も角度や速度に反映すると良いかも
 	public void changeV(boolean isx){
 		if(isx) vx = -vx;
 		else vy = -vy;
 	}
-	
+
+	//画面からはみ出てないかのチェック
+	//ボールは画面から出たら消える運命にある
 	@Override
 	public void checkOver() {
 		if(x < r){
@@ -53,27 +58,27 @@ public class Ball extends Sprite{
 			delete();
 		}
 	}
-	
+
 	public void delete(){
 		isExist = false;
 	}
-	
+
 	public void setYon(double y){
 		this.y = y-r;
 	}
-	
+	//横の壁は跳ね返る。そのため別チェックだがボールじゃなく壁側での判定にした
 //	private boolean checkWall(){
 //		return x < r || x > MainFrame.WIDTH-r || y < r || y > MainFrame.HEIGHT-r;
 //	}
-	
+
 	@Override
 	public void draw(Graphics2D g) {
 		g.fillOval((int)(x-r), (int)(y-r), R, R);
 	}
-	
+	//衝突判定は同じく、他のパーツ側での判定にした
 //	@Override
 //	public boolean collision(Ball b) {
-//		
+//
 //		return false;
 //	}
 }

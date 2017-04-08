@@ -12,7 +12,7 @@ public class MainFrame extends JPanel
 	implements Runnable, KeyListener{
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 500;
-	
+
 	private Ball ball;
 	private Block[] block;
 	private Bar bar;
@@ -24,13 +24,13 @@ public class MainFrame extends JPanel
 		this.setSize(WIDTH, HEIGHT);
 		init();
 	}
-	
+
 	public void start(){
 		Thread thread = new Thread(this);
 		thread.start();
 		anime = true;
 	}
-	
+
 	public void init(){
 		ball = new Ball(50, 200);
 		block = new Block[12];
@@ -41,7 +41,8 @@ public class MainFrame extends JPanel
 		}
 		bar = new Bar(WIDTH/2-Bar.WIDTH/2, 400, ball);
 	}
-	
+
+	//画面上のすべてのパーツを更新
 	public void update(){
 		keyCheck();
 		ball.update();
@@ -61,10 +62,11 @@ public class MainFrame extends JPanel
 			ball.setYon(400);
 		}
 //		else if(check != -1) ball.changeV(true);
-		
+
+		//ballが画面外に出るなどして存在しなくなった場合、ゲームオーバー
 		if(!ball.isExist()) anime = false;
 	}
-	
+
 	public void keyCheck(){
 		switch(key){
 		case KeyEvent.VK_LEFT:
@@ -75,46 +77,51 @@ public class MainFrame extends JPanel
 			break;
 		}
 	}
-	
+
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO �����������ꂽ���\�b�h�E�X�^�u
 		key = e.getKeyCode();
 //		System.out.println(key);
 	}
-	
+
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO �����������ꂽ���\�b�h�E�X�^�u
 		key = 0;
 	}
-	
+
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO �����������ꂽ���\�b�h�E�X�^�u
-		
+
 	}
-	
+
+	//画面描画。全てのパーツをここで描画する
 	public void draw(Graphics2D g){
+		//背景黒塗り
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
+		//パーツのカラー設定
 		g.setColor(Color.WHITE);
+
 		if(ball.isExist()) ball.draw(g);
 		for(int i=0; i<12; i++){
 			if(!block[i].isExist()) continue;
 			block[i].draw(g);
 		}
 		bar.draw(g);
-		
-		
+
+		//ゲームオーバー処理
 		if(!anime) g.drawString("GAME OVER", 110, 200);
 	}
-	
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		draw((Graphics2D)g);
 	}
-	
+
+	//ゲーム実行中はスレッドでこれが常に繰り返し実行される
 	@Override
 	public void run() {
 		while(true){

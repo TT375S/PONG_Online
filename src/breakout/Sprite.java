@@ -2,6 +2,7 @@ package breakout;
 
 import java.awt.Graphics2D;
 
+//このゲームの画面上の構成部品の基礎となるスプライト。
 public abstract class Sprite {
 	double x;
 	double y;

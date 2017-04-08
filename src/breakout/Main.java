@@ -2,13 +2,15 @@ package breakout;
 
 import javax.swing.JFrame;
 
+
 public class Main{
+	//このゲーム全体のエントリポイント
 	public static void main(String[] args){
 		JFrame frame = new JFrame();
 		MainFrame panel = new MainFrame();
 		frame.add(panel);
 
-		frame.setTitle("�u���b�N����");
+		frame.setTitle("ball");
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
