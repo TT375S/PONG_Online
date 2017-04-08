@@ -23,9 +23,9 @@ public class NetworkManager {
 		this(true);
 	}
 
-	public NetworkManager(boolean isClient, String... host){
-		isServer = !(isClient);
-		if(isServer){
+	public NetworkManager(boolean isServer, String... host){
+		this.isServer = isServer;
+		if(this.isServer){
 			try{
 				serverSocket = new ServerSocket(PORT);
 				System.out.println("Started: " + serverSocket);

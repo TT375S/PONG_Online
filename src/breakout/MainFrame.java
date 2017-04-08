@@ -84,8 +84,8 @@ public class MainFrame extends JPanel
 			}
 			if(inputLine != null){
 				String[] inputTokens = inputLine.split(" ");
-				bar_enemy.x = Integer.parseInt(inputTokens[0]) ;
-				bar_enemy.y = Integer.parseInt(inputTokens[1]) ;
+				bar_enemy.x = Double.parseDouble(inputTokens[0]) ;
+				bar_enemy.y = Double.parseDouble(inputTokens[1]) ;
 			}
 
 			int check = bar.collision(ball);
@@ -125,10 +125,10 @@ public class MainFrame extends JPanel
 			}
 			if(inputLine != null){
 				String[] inputTokens = inputLine.split(" ");
-				bar_enemy.x = Integer.parseInt(inputTokens[0]) ;
-				bar_enemy.y = Integer.parseInt(inputTokens[1]) ;
-				ball.x = Integer.parseInt(inputTokens[2]);
-				ball.y = Integer.parseInt(inputTokens[3]);
+				bar_enemy.x = Double.parseDouble(inputTokens[0]) ;
+				bar_enemy.y = Double.parseDouble(inputTokens[1]) ;
+				ball.x = Double.parseDouble(inputTokens[2]);
+				ball.y = Double.parseDouble(inputTokens[3]);
 			}
 
 			//サーバーの時はball.update()でやっちゃつてるバウンダリチェックを別にやってる
