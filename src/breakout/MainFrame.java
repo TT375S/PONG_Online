@@ -52,12 +52,12 @@ public class MainFrame extends JPanel
 		}
 		bar = new Bar(WIDTH/2-Bar.WIDTH/2, 400, ball);
 		bar_enemy = new Bar(WIDTH/2-Bar.WIDTH/2, 30, ball);
-		if(!DEBUG)		networkManager = new NetworkManager(true, 8094);
+		if(!DEBUG)		networkManager = new NetworkManager(true, 8080);
 	}
 
 	//画面上のすべてのパーツを更新
 	public void update(){
-		//-----DEBUG------
+		//-----DEBUG FOR STAND ALONE------
 		if(DEBUG){
 			keyCheck();
 			ball.update();
@@ -96,7 +96,8 @@ public class MainFrame extends JPanel
 			if(!ball.isExist()) anime = false;
 			return;
 		}
-		//-----DEBUG-----
+		//-----DEBUG FOR STAND ALONE-----
+
 		if(networkManager.isServer){
 			keyCheck();
 			bar.update();
