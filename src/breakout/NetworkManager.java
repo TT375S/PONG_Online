@@ -17,8 +17,8 @@ public class NetworkManager {
 	private ServerSocket serverSocket;
 	private InetAddress addr;
 	private Socket socket;
-	private BufferedReader in;
-	private PrintWriter out;
+	public BufferedReader in;
+	public PrintWriter out;
 	public NetworkManager(){
 		this(true);
 	}
