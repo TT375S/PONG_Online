@@ -12,7 +12,8 @@ public class StartPanel extends JPanel{
 	public StartPanel(){
 		this.setFocusable(true);
 		this.setSize(WIDTH, HEIGHT);
-		this.setLayout(null);
+
+		//this.setLayout(null);
 		paneltitle.setBounds(0, 5, 400, 30);
         this.add(paneltitle);
         this.setBackground(Color.getHSBColor(205, 0.5f, 0.8f));

@@ -14,7 +14,7 @@ public class MainFrame extends JPanel
 	implements Runnable, KeyListener{
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 500;
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 	private Ball ball;
 	private Block[] block;
 	private Bar bar;
@@ -22,18 +22,33 @@ public class MainFrame extends JPanel
 	private boolean anime;
 	private int key;
 	private NetworkManager networkManager;
-
 	public MainFrame(){
-		this.setFocusable(true);
-		this.addKeyListener(this);
-		this.setSize(WIDTH, HEIGHT);
-
-		//networkManager = new NetworkManager(true);
-
-		init();
+	this.setFocusable(true);
+	this.addKeyListener(this);
+	this.setSize(WIDTH, HEIGHT);
+	init();
 	}
 
+	//ネットワーク設定を画面作成時にやるつもりだったけど、後の方が良さそうだったので変更した名残
+//	public MainFrame(){
+//		this(true, 8080);
+//	}
+//
+//	public MainFrame(boolean isServer, int port, String... host){
+//		if(!DEBUG)networkManager = new NetworkManager(isServer, port, host);
+//		this.setFocusable(true);
+//		this.addKeyListener(this);
+//		this.setSize(WIDTH, HEIGHT);
+//
+//		init();
+//	}
+
 	public void start(){
+		this.start(true, 8080);
+	}
+
+	public void start(boolean isServer, int port, String... host){
+		if(!DEBUG)networkManager = new NetworkManager(isServer, port, host);
 		Thread thread = new Thread(this);
 		thread.start();
 		System.out.println("Thread start");
@@ -52,7 +67,6 @@ public class MainFrame extends JPanel
 		}
 		bar = new Bar(WIDTH/2-Bar.WIDTH/2, 400, ball);
 		bar_enemy = new Bar(WIDTH/2-Bar.WIDTH/2, 30, ball);
-		if(!DEBUG)		networkManager = new NetworkManager(true, 8080);
 	}
 
 	//画面上のすべてのパーツを更新
