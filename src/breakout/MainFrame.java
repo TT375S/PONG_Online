@@ -19,10 +19,12 @@ public class MainFrame extends JPanel
 	private Bar bar_enemy;
 	private boolean anime;
 	private int key;
+	
 	public MainFrame(){
 		this.setFocusable(true);
 		this.addKeyListener(this);
 		this.setSize(WIDTH, HEIGHT);
+		
 		init();
 	}
 
@@ -84,6 +86,7 @@ public class MainFrame extends JPanel
 		if(!ball.isExist()) anime = false;
 	}
 
+	//TODO:同時押しに対応させるべき
 	public void keyCheck(){
 //		int moveDist = 0;
 //		if(key == KeyEvent.VK_LEFT) moveDist += -5;
