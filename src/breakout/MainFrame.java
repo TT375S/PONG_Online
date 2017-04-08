@@ -51,6 +51,7 @@ public class MainFrame extends JPanel
 			if(!block[i].isExist()) continue;
 			int check = block[i].collision(ball);
 			if(check == -1) continue;
+			//ブロックのどの面と当たったかで反射方向を変える
 			if(check == 0 || check == 2) ball.changeV(false);
 			else ball.changeV(true);
 			block[i].delete();

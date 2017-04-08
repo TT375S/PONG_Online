@@ -37,24 +37,30 @@ public class Ball extends Sprite{
 	}
 
 	//画面からはみ出てないかのチェック
-	//ボールは画面から出たら消える運命にある
+	//ボールは特定の方向に画面から出たら消える運命にある
 	@Override
 	public void checkOver() {
+		//(左)
 		if(x < r){
 			x = r;
-			vx = -vx;
+			changeV(false);
 		}
+		//(右)
 		else if(x > MainFrame.WIDTH-r){
 			x = MainFrame.WIDTH-r;
-			vx = -vx;
+			changeV(false);
 		}
+		//ボールが画面の上下のワクに達したら、ボールは消える
+		//(上)
 		else if(y < r){
 			y = r;
-			vy = -vy;
+			changeV(true);
+			delete();
 		}
+		//(下)
 		else if(y > MainFrame.HEIGHT-r){
 			y = MainFrame.HEIGHT-r;
-			vy = -vy;
+			changeV(true);
 			delete();
 		}
 	}
@@ -63,10 +69,11 @@ public class Ball extends Sprite{
 		isExist = false;
 	}
 
+	//強制的にY座標設定
 	public void setYon(double y){
 		this.y = y-r;
 	}
-	//横の壁は跳ね返る。そのため別チェックだがボールじゃなく壁側での判定にした
+	//横の壁は跳ね返る。そのため別チェック。上のcheckOver()にて行う。
 //	private boolean checkWall(){
 //		return x < r || x > MainFrame.WIDTH-r || y < r || y > MainFrame.HEIGHT-r;
 //	}
