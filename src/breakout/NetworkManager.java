@@ -63,6 +63,7 @@ public class NetworkManager {
 	}
 
 	public void disconect(){
+		System.out.println("Network:Disconected");
 		try{
 			socket.close();
 			if(isServer) serverSocket.close();

@@ -13,8 +13,8 @@ public class Main{
 	public static void main(String[] args){
 
 		JFrame frame = new JFrame();
-		MainFrame panel = new MainFrame();
-		StartPanel startPanel = new StartPanel();
+		final MainFrame  panel = new MainFrame();
+		final StartPanel startPanel = new StartPanel();
 
 		panel.setVisible(false);
 		startPanel.setVisible(true);
@@ -31,8 +31,8 @@ public class Main{
 		frame.setBounds(200, 200, MainFrame.WIDTH+15, MainFrame.HEIGHT+39);
 
 		//スタート画面に設定値入力用のフィールドを追加
-	    JTextField field_port = new JTextField(10);
-	    JTextField field_hostName = new JTextField(15);
+	    final JTextField field_port = new JTextField(10);
+	    final JTextField field_hostName = new JTextField(15);
 	    field_port.setText("8080");
 	    field_hostName.setText("localhost");
 	    startPanel.add(field_port);

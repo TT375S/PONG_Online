@@ -146,7 +146,8 @@ public class MainFrame extends JPanel
 			if(inputLine != null){
 				String[] inputTokens = inputLine.split(" ");
 				bar_enemy.x = Double.parseDouble(inputTokens[0]) ;
-				bar_enemy.y = Double.parseDouble(inputTokens[1]) ;
+				//y軸座標は今のところ変わらないのでいらない
+				//bar_enemy.y = Double.parseDouble(inputTokens[1]) ;
 			}
 
 			int check = bar.collision(ball);
@@ -168,7 +169,10 @@ public class MainFrame extends JPanel
 			}
 
 			//ballが画面外に出るなどして存在しなくなった場合、ゲームオーバー
-			if(!ball.isExist()) anime = false;
+			if(!ball.isExist()){
+				anime = false;
+				networkManager.disconect();
+			}
 		}
 		//クライアント側のアップデート処理。ボールの位置計算などはホスト側でやってもらう。
 		else{
@@ -187,7 +191,8 @@ public class MainFrame extends JPanel
 			if(inputLine != null){
 				String[] inputTokens = inputLine.split(" ");
 				bar_enemy.x = Double.parseDouble(inputTokens[0]) ;
-				bar_enemy.y = Double.parseDouble(inputTokens[1]) ;
+				//y軸座標は今のところ変わらないのでいらない
+				//bar_enemy.y = Double.parseDouble(inputTokens[1]) ;
 				ball.x = Double.parseDouble(inputTokens[2]);
 				ball.y = Double.parseDouble(inputTokens[3]);
 			}
@@ -195,7 +200,10 @@ public class MainFrame extends JPanel
 			//サーバーの時はball.update()でやっちゃつてるバウンダリチェックを別にやってる
 			ball.checkOver();
 			//ballが画面外に出るなどして存在しなくなった場合、ゲームオーバー
-			if(!ball.isExist()) anime = false;
+			if(!ball.isExist()){
+				anime = false;
+				networkManager.disconect();
+			}
 		}
 
 	}
