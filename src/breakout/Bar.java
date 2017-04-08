@@ -2,8 +2,9 @@ package breakout;
 
 //長方形型のRectクラスのサブクラスとしてのバー。プレイヤーの分身
 public class Bar extends Rect{
-	public static final int WIDTH = 15;
-	public static final int HEIGHT = 60;
+	//public static final int HEIGHT = 60;
+	public static final int WIDTH = 480;
+	public static final int HEIGHT = 15;
 	private Ball ball;
 
 	public Bar(double x, double y, Ball b) {
@@ -22,7 +23,7 @@ public class Bar extends Rect{
 
 	//今は横移動しかできない
 	public void move(int dist){
-		this.y += dist;
+		this.x += dist;
 	}
 
 

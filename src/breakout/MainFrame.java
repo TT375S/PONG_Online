@@ -16,6 +16,7 @@ public class MainFrame extends JPanel
 	private Ball ball;
 	private Block[] block;
 	private Bar bar;
+	private Bar bar_enemy;
 	private boolean anime;
 	private int key;
 	public MainFrame(){
@@ -31,6 +32,7 @@ public class MainFrame extends JPanel
 		anime = true;
 	}
 
+	//パーツの配置
 	public void init(){
 		ball = new Ball(50, 200);
 		block = new Block[12];
@@ -40,6 +42,7 @@ public class MainFrame extends JPanel
 			}
 		}
 		bar = new Bar(WIDTH/2-Bar.WIDTH/2, 400, ball);
+		bar_enemy = new Bar(WIDTH/2-Bar.WIDTH/2, 30, ball);
 	}
 
 	//画面上のすべてのパーツを更新
@@ -57,12 +60,23 @@ public class MainFrame extends JPanel
 			block[i].delete();
 		}
 		bar.update();
+		bar_enemy.update();
 		int check = bar.collision(ball);
 		if(check != -1){
+			System.out.println("HIT1");
 			ball.changeV(false);
+			//強制的にバーの上に移動させる
 			ball.setYon(400);
 		}
 //		else if(check != -1) ball.changeV(true);
+
+		//敵バーの衝突
+		if(bar_enemy.collision(ball) != -1){
+			System.out.println("HIT2");
+			ball.changeV(false);
+			//強制的にバーの上に移動させる(位置に注意！上下反転してるので厚さも考える)
+			ball.setYon(60);
+		}
 
 		//ballが画面外に出るなどして存在しなくなった場合、ゲームオーバー
 		if(!ball.isExist()) anime = false;
@@ -112,9 +126,9 @@ public class MainFrame extends JPanel
 			block[i].draw(g);
 		}
 		bar.draw(g);
-
+		bar_enemy.draw(g);
 		//ゲームオーバー処理
-		if(!anime) g.drawString("GAME OVER", 110, 200);
+		if(!anime) g.drawString("GAME OVER", MainFrame.WIDTH/2, MainFrame.HEIGHT/2);
 	}
 
 	@Override
