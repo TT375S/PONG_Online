@@ -1,7 +1,6 @@
 package breakout;
 
 import java.awt.Color;
-import java.awt.Event;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -11,7 +10,7 @@ import javax.swing.JPanel;
 
 public class MainFrame extends JPanel
 	implements Runnable, KeyListener{
-	public static final int WIDTH = 300;
+	public static final int WIDTH = 800;
 	public static final int HEIGHT = 500;
 	
 	private Ball ball;
@@ -79,20 +78,20 @@ public class MainFrame extends JPanel
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
+		// TODO ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½Eï¿½Xï¿½^ï¿½u
 		key = e.getKeyCode();
 //		System.out.println(key);
 	}
 	
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
+		// TODO ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½Eï¿½Xï¿½^ï¿½u
 		key = 0;
 	}
 	
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
+		// TODO ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½Eï¿½Xï¿½^ï¿½u
 		
 	}
 	

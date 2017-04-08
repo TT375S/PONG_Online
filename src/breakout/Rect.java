@@ -5,29 +5,29 @@ import java.awt.Graphics2D;
 public class Rect extends Sprite{
 	int width;
 	int height;
-	
+
 	public Rect(double x, double y) {
 		super(x, y);
 	}
-	
+
 	@Override
 	public void update() {
-		
+
 	}
-	
+
 	@Override
 	public void checkOver() {
-		if(x < 0) x = 0;
-		else if(x >= MainFrame.WIDTH-width) x = MainFrame.WIDTH-width;
-//		else if(y < height) y = height;
-//		else if(y > MainFrame.HEIGHT-height) y = MainFrame.HEIGHT-height;
+//		if(x < 0) x = 0;
+//		else if(x >= MainFrame.WIDTH-width) x = MainFrame.WIDTH-width;
+		if(y < height) y = height;
+		else if(y >= MainFrame.HEIGHT-height) y = MainFrame.HEIGHT-height;
 	}
-	
+
 	@Override
 	public void draw(Graphics2D g) {
 		g.fillRect((int)x, (int)y, width, height);
 	}
-	
+
 	public int collision(Ball b) {
 		if(Math.abs(b.x - x)+Math.abs(b.y - y) > 100) return -1;
 		double[] px = new double[4];
