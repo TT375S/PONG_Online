@@ -14,7 +14,8 @@ public class MainFrame extends JPanel
 	implements Runnable, KeyListener{
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 500;
-	public static final boolean DEBUG = false;
+	public static boolean OFFLINE = false;
+
 	private Ball ball;
 	private Block[] block;
 	private Bar bar;
@@ -48,7 +49,8 @@ public class MainFrame extends JPanel
 	}
 
 	public void start(boolean isServer, int port, String... host){
-		if(!DEBUG)networkManager = new NetworkManager(isServer, port, host);
+		if(port == -1) OFFLINE = true;
+		if(!OFFLINE)networkManager = new NetworkManager(isServer, port, host);
 		Thread thread = new Thread(this);
 		thread.start();
 		System.out.println("Thread start");
@@ -72,7 +74,7 @@ public class MainFrame extends JPanel
 	//画面上のすべてのパーツを更新
 	public void update(){
 		//-----DEBUG FOR STAND ALONE------
-		if(DEBUG){
+		if(OFFLINE){
 			keyCheck();
 			ball.update();
 

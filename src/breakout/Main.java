@@ -46,7 +46,7 @@ public class Main{
             public void actionPerformed(ActionEvent e){
                 panel.setVisible(true);
                 startPanel.setVisible(false);
-                panel.start();
+                panel.start(true, -1);
             }
         });
         startPanel.add(btn);
