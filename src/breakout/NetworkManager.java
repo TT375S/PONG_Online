@@ -11,8 +11,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class NetworkManager {
-	public static boolean isServer = false;
-	public static final int PORT = 8080;
+	public boolean isServer = false;
+	public int PORT = 8080;
 
 	private ServerSocket serverSocket;
 	private InetAddress addr;
@@ -20,13 +20,15 @@ public class NetworkManager {
 	public BufferedReader in;
 	public PrintWriter out;
 	public NetworkManager(){
-		this(true);
+		this(true, 8080);
 	}
 
-	public NetworkManager(boolean isServer, String... host){
+	//引数は、サーバーか否か、ポート番号、接続先ホスト名、の順番。
+	public NetworkManager(boolean isServer, int port, String... host){
 		this.isServer = isServer;
 		if(this.isServer){
 			try{
+				PORT = port;
 				serverSocket = new ServerSocket(PORT);
 				System.out.println("Started: " + serverSocket);
 				socket = serverSocket.accept();
@@ -36,18 +38,20 @@ public class NetworkManager {
 				e.printStackTrace();
 			}
 		}
-		//クライアントモードなのに接続先ホスト名が指定されていないとき
-		else if(host.length == 0){
-			System.out.println("ERR: Netowork mangaer has no distination host name.");
-			return;
-		}else{
+		else if(host.length == 1){
 			try{
+				PORT = port;
 				addr = InetAddress.getByName(host[0]);
 				socket = new Socket(addr,  PORT);
 				System.out.println("Connection established: " + socket);
 			}catch(IOException e){
 				e.printStackTrace();
 			}
+		}
+		//クライアントモードなのに接続先ホスト名が指定されていないとき
+		else{
+			System.out.println("ERR: Netowork mangaer has no distination host name.");
+			return;
 		}
 
 		try{

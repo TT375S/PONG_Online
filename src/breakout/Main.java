@@ -8,6 +8,7 @@ public class Main{
 	public static void main(String[] args){
 		JFrame frame = new JFrame();
 		MainFrame panel = new MainFrame();
+		StartPanel startPanel = new StartPanel();
 		frame.add(panel);
 
 		frame.setTitle("ball");

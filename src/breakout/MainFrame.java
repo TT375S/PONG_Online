@@ -9,11 +9,12 @@ import java.io.IOException;
 
 import javax.swing.JPanel;
 
+//TODO:フレームじゃなくてパネルだから改名すべき
 public class MainFrame extends JPanel
 	implements Runnable, KeyListener{
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 500;
-
+	public static final boolean DEBUG = true;
 	private Ball ball;
 	private Block[] block;
 	private Bar bar;
@@ -27,7 +28,7 @@ public class MainFrame extends JPanel
 		this.addKeyListener(this);
 		this.setSize(WIDTH, HEIGHT);
 
-		networkManager = new NetworkManager(true);
+		//networkManager = new NetworkManager(true);
 
 		init();
 	}
@@ -35,12 +36,14 @@ public class MainFrame extends JPanel
 	public void start(){
 		Thread thread = new Thread(this);
 		thread.start();
+		System.out.println("Thread start");
 		anime = true;
 	}
 
 	//パーツの配置
 	public void init(){
-		ball = new Ball(20, 200);
+		System.out.println("init");
+		ball = new Ball(300, 200);
 		block = new Block[12];
 		for(int i=0; i<3; i++){
 			for(int j=0; j<4; j++){
@@ -49,10 +52,51 @@ public class MainFrame extends JPanel
 		}
 		bar = new Bar(WIDTH/2-Bar.WIDTH/2, 400, ball);
 		bar_enemy = new Bar(WIDTH/2-Bar.WIDTH/2, 30, ball);
+		if(!DEBUG)		networkManager = new NetworkManager(true, 8094);
 	}
 
 	//画面上のすべてのパーツを更新
 	public void update(){
+		//-----DEBUG------
+		if(DEBUG){
+			keyCheck();
+			ball.update();
+
+			for(int i=0; i<12; i++){
+//				block[i].update();
+				if(!block[i].isExist()) continue;
+				int check = block[i].collision(ball);
+				if(check == -1) continue;
+				//ブロックのどの面と当たったかで反射方向を変える
+				if(check == 0 || check == 2) ball.changeV(false);
+				else ball.changeV(true);
+				block[i].delete();
+			}
+			bar.update();
+			bar_enemy.update();
+			int check = bar.collision(ball);
+			if(check != -1){
+				System.out.println("HIT1");
+				ball.changeV(false);
+				//強制的にバーの上に移動させる
+				ball.setYon(400);
+			}
+//			else if(check != -1) ball.changeV(true);
+
+			check = bar_enemy.collision(ball);
+			//敵バーの衝突
+			if(check != -1){
+				System.out.println("HIT2");
+				ball.changeV(false);
+				//強制的にバーの上に移動させる(位置に注意！上下反転してるので厚さも考える)
+				ball.setYon(70);
+			}
+
+			//ballが画面外に出るなどして存在しなくなった場合、ゲームオーバー
+			if(!ball.isExist()) anime = false;
+			return;
+		}
+		//-----DEBUG-----
 		if(networkManager.isServer){
 			keyCheck();
 			bar.update();
