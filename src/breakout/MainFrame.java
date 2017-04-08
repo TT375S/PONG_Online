@@ -49,7 +49,7 @@ public class MainFrame extends JPanel
 	public void update(){
 		keyCheck();
 		ball.update();
-		
+
 		for(int i=0; i<12; i++){
 //			block[i].update();
 			if(!block[i].isExist()) continue;
@@ -85,6 +85,10 @@ public class MainFrame extends JPanel
 	}
 
 	public void keyCheck(){
+//		int moveDist = 0;
+//		if(key == KeyEvent.VK_LEFT) moveDist += -5;
+//		else if(key == KeyEvent.VK_RIGHT) moveDist += 5;
+//		bar.move(moveDist);
 		switch(key){
 		case KeyEvent.VK_LEFT:
 			bar.move(-5);
