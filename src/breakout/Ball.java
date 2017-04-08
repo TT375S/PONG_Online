@@ -32,6 +32,7 @@ public class Ball extends Sprite{
 	//ボールが衝突した時に反射する。反射する角度は常に入射角=反射角
 	//動いてるバーなど、当たったものの速度も角度や速度に反映すると良いかも
 	public void changeV(boolean isx){
+		System.out.println("changeV: " + isx);
 		if(isx) vx = -vx;
 		else vy = -vy;
 	}
@@ -42,25 +43,32 @@ public class Ball extends Sprite{
 	public void checkOver() {
 		//(左)
 		if(x < r){
+			System.out.println("WallHit_L");
+			//System.out.println("WallHit_L: " + x +" " + r + "velo "+vx +" /"+vy);
 			x = r;
-			changeV(false);
+			//System.out.println("newx " + x);
+			changeV(true);
+			//System.out.println("changedvelo "+vx +" /"+vy);
 		}
 		//(右)
 		else if(x > MainFrame.WIDTH-r){
+			System.out.println("WallHit_R");
 			x = MainFrame.WIDTH-r;
-			changeV(false);
+			changeV(true);
 		}
 		//ボールが画面の上下のワクに達したら、ボールは消える
 		//(上)
 		else if(y < r){
+			System.out.println("WallHit_U");
 			y = r;
-			changeV(true);
+			changeV(false);
 			delete();
 		}
 		//(下)
 		else if(y > MainFrame.HEIGHT-r){
+			System.out.println("WallHit_D");
 			y = MainFrame.HEIGHT-r;
-			changeV(true);
+			changeV(false);
 			delete();
 		}
 	}

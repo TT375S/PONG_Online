@@ -34,7 +34,7 @@ public class MainFrame extends JPanel
 
 	//パーツの配置
 	public void init(){
-		ball = new Ball(50, 200);
+		ball = new Ball(20, 200);
 		block = new Block[12];
 		for(int i=0; i<3; i++){
 			for(int j=0; j<4; j++){
@@ -49,6 +49,7 @@ public class MainFrame extends JPanel
 	public void update(){
 		keyCheck();
 		ball.update();
+		
 		for(int i=0; i<12; i++){
 //			block[i].update();
 			if(!block[i].isExist()) continue;
@@ -70,12 +71,13 @@ public class MainFrame extends JPanel
 		}
 //		else if(check != -1) ball.changeV(true);
 
+		check = bar_enemy.collision(ball);
 		//敵バーの衝突
-		if(bar_enemy.collision(ball) != -1){
+		if(check != -1){
 			System.out.println("HIT2");
 			ball.changeV(false);
 			//強制的にバーの上に移動させる(位置に注意！上下反転してるので厚さも考える)
-			ball.setYon(60);
+			ball.setYon(70);
 		}
 
 		//ballが画面外に出るなどして存在しなくなった場合、ゲームオーバー
