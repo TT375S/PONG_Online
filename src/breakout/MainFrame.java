@@ -3,23 +3,23 @@ package breakout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JTextField;
 
+//主となるフレーム。ウィンドウみたいなもん
 public class MainFrame extends JFrame{
 	public MainFrame(){
 
-		final GamePanel  panel = new GamePanel();
+		final GamePanel  gamePanel = new GamePanel();
 		final StartPanel startPanel = new StartPanel();
 
-		panel.setVisible(false);
+		//スタート画面を見えるようにし、ゲーム画面を見えないようにする
+		gamePanel.setVisible(false);
 		startPanel.setVisible(true);
 
-
 		this.add(startPanel);
-		this.add(panel);
+		this.add(gamePanel);
 
+		//フレームの各種設定
 		this.setTitle("ball");
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -27,49 +27,32 @@ public class MainFrame extends JFrame{
 //		this.setBounds(100, 100, Mainthis.WIDTH+15, Mainthis.HEIGHT+50);
 		this.setBounds(200, 200, GamePanel.WIDTH+15, GamePanel.HEIGHT+39);
 
-		//スタート画面に設定値入力用のフィールドを追加
-	    final JTextField field_port = new JTextField(10);
-	    final JTextField field_hostName = new JTextField(15);
-	    field_port.setText("8080");
-	    field_hostName.setText("localhost");
-	    startPanel.add(field_port);
-	    startPanel.add(field_hostName);
-
-		//スタート画面にボタンを追加
-		//TODO;あるべき場所にこいつらを移動する
-		JButton btn = new JButton("オフライン");
-		btn.setBounds(50, 50, 200, 40);
-        btn.addActionListener(new ActionListener(){
+		//スタート画面のボタン類の設定。他のパネルにアクセスする必要があるので、StartPanelクラスではなくここでやってしまっている
+		startPanel.btn_offline.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                panel.setVisible(true);
+            	//オフラインボタンが押されたら、ゲーム画面を見えるようにし、スタート画面を見えなくし、ゲームを開始する。
+                gamePanel.setVisible(true);
                 startPanel.setVisible(false);
-                panel.start(true, -1);
+                //ポート番号が-1のときはオフラインモード
+                gamePanel.start(true, -1);
             }
         });
-        startPanel.add(btn);
 
-		JButton btn_server = new JButton("サーバ");
-		btn_server.setBounds(100, 50, 200, 40);
-        btn_server.addActionListener(new ActionListener(){
+        startPanel.btn_server.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                panel.setVisible(true);
+                gamePanel.setVisible(true);
                 startPanel.setVisible(false);
-                panel.start(true, Integer.parseInt(field_port.getText()));
+                gamePanel.start(true, Integer.parseInt(startPanel.field_port.getText()));
             }
         });
-        startPanel.add(btn_server);
 
-		JButton btn_client = new JButton("クライアント");
-		btn_client.setBounds(100, 50, 200, 40);
-        btn_client.addActionListener(new ActionListener(){
+        startPanel.btn_client.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                panel.setVisible(true);
+                gamePanel.setVisible(true);
                 startPanel.setVisible(false);
-                panel.start(false, Integer.parseInt(field_port.getText()), field_hostName.getText());
+                gamePanel.start(false, Integer.parseInt(startPanel.field_port.getText()), startPanel.field_hostName.getText());
             }
         });
-        startPanel.add(btn_client);
-
 
 	}
 
