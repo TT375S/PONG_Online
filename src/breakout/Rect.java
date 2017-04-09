@@ -5,8 +5,8 @@ import java.awt.Graphics2D;
 //長方形部品のスーパークラスとなるRect。
 //四角い部品はほぼなんでもコレ
 public class Rect extends Sprite{
-	int width;
-	int height;
+	public int width;
+	public int height;
 
 	public Rect(double x, double y) {
 		super(x, y);

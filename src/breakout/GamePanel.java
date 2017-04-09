@@ -8,6 +8,7 @@ import java.awt.event.KeyListener;
 import java.io.IOException;
 
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class GamePanel extends JPanel
 	implements Runnable, KeyListener{
@@ -17,16 +18,23 @@ public class GamePanel extends JPanel
 
 	private Ball ball;
 	private Block[] block;
-	private Bar bar;
-	private Bar bar_enemy;
+	private ChatBar bar;
+	private ChatBar bar_enemy;
 	private boolean anime;
 	private int key;
 	private NetworkManager networkManager;
+	private JTextField chatInputField;
 	public GamePanel(){
-	this.setFocusable(true);
-	this.addKeyListener(this);
-	this.setSize(WIDTH, HEIGHT);
-	init();
+		//チャット用テキストフィールドを追加
+		this.chatInputField = new JTextField(8);
+		this.add(this.chatInputField);
+		chatInputField.addKeyListener(this);
+		//Frame設定
+		this.setFocusable(true);
+		this.addKeyListener(this);
+		this.setSize(WIDTH, HEIGHT);
+
+		init();
 	}
 
 	//ネットワーク設定を画面作成時にやるつもりだったけど、後の方が良さそうだったので変更した名残
@@ -67,8 +75,18 @@ public class GamePanel extends JPanel
 //				block[i*4+j] = new Block(51+j*50, 52+i*20);
 //			}
 //		}
-		bar = new Bar(WIDTH/2-Bar.WIDTH/2, 400, ball);
-		bar_enemy = new Bar(WIDTH/2-Bar.WIDTH/2, 30, ball);
+		bar = new ChatBar(WIDTH/2-Bar.WIDTH/2, 400, ball);
+		bar_enemy = new ChatBar(WIDTH/2-Bar.WIDTH/2, 30, ball);
+		//this.setFocusable(true);
+		chatInputField.addActionListener(new java.awt.event.ActionListener() {
+			//チャット用テキストフィールドでEnterが押された場合に実行
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				//バーにチャットメッセージをセットなど
+				bar.setMessage(chatInputField.getText());
+				chatInputField.setText("");
+				System.out.println("chat msg is settlement.");
+			}
+		});
 	}
 
 	//画面上のすべてのパーツを更新
@@ -246,7 +264,7 @@ public class GamePanel extends JPanel
 	//画面描画。全てのパーツをここで描画する
 	public void draw(Graphics2D g){
 		//背景黒塗り
-		g.setColor(Color.BLACK);
+		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		//パーツのカラー設定
 		g.setColor(Color.WHITE);
