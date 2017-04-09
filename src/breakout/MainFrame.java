@@ -9,7 +9,7 @@ import javax.swing.JTextField;
 
 public class MainFrame extends JFrame{
 	public MainFrame(){
-		JFrame frame = new JFrame();
+
 		final GamePanel  panel = new GamePanel();
 		final StartPanel startPanel = new StartPanel();
 
@@ -17,15 +17,15 @@ public class MainFrame extends JFrame{
 		startPanel.setVisible(true);
 
 
-		frame.add(startPanel);
-		frame.add(panel);
+		this.add(startPanel);
+		this.add(panel);
 
-		frame.setTitle("ball");
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.pack();
-//		frame.setBounds(100, 100, MainFrame.WIDTH+15, MainFrame.HEIGHT+50);
-		frame.setBounds(200, 200, GamePanel.WIDTH+15, GamePanel.HEIGHT+39);
+		this.setTitle("ball");
+		this.setVisible(true);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.pack();
+//		this.setBounds(100, 100, Mainthis.WIDTH+15, Mainthis.HEIGHT+50);
+		this.setBounds(200, 200, GamePanel.WIDTH+15, GamePanel.HEIGHT+39);
 
 		//スタート画面に設定値入力用のフィールドを追加
 	    final JTextField field_port = new JTextField(10);
@@ -69,6 +69,8 @@ public class MainFrame extends JFrame{
             }
         });
         startPanel.add(btn_client);
+
+
 	}
 
 	private void init(){
