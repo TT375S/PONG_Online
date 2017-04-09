@@ -3,7 +3,7 @@ package breakout;
 import java.awt.Graphics2D;
 
 //長方形部品のスーパークラスとなるRect。
-//ほぼなんでもコレ
+//四角い部品はほぼなんでもコレ
 public class Rect extends Sprite{
 	int width;
 	int height;
@@ -23,7 +23,7 @@ public class Rect extends Sprite{
 //		if(x < 0) x = 0;
 //		else if(x >= MainFrame.WIDTH-width) x = MainFrame.WIDTH-width;
 		if(y < height) y = height;
-		else if(y >= MainFrame.HEIGHT-height) y = MainFrame.HEIGHT-height;
+		else if(y >= GamePanel.HEIGHT-height) y = GamePanel.HEIGHT-height;
 	}
 
 	@Override
@@ -44,7 +44,8 @@ public class Rect extends Sprite{
 //	return -1;
 //}
 
-	//このゲームでは、ボールでなく各部品側で衝突判定する。ベクトルでの矩形-円の衝突判定
+	//このゲームでは、長方形部品とはボールでなく部品側で衝突判定する。ベクトルでの矩形-円の衝突判定
+	//4辺のどこに当たったかを返す。当たらなければ-1
 	public int collision(Ball b) {
 		//処理の簡略化のため、明らかに離れてれば衝突してないことにする
 		//部品のサイズをバカでかくする際は注意->画面サイズ大きくしたのでこの値は設定し直すべき

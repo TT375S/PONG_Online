@@ -5,6 +5,7 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+//ゲームの開始画面をセットする。
 public class StartPanel extends JPanel{
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 500;

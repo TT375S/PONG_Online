@@ -13,7 +13,7 @@ public class Main{
 	public static void main(String[] args){
 
 		JFrame frame = new JFrame();
-		final MainFrame  panel = new MainFrame();
+		final GamePanel  panel = new GamePanel();
 		final StartPanel startPanel = new StartPanel();
 
 		panel.setVisible(false);
@@ -28,7 +28,7 @@ public class Main{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 //		frame.setBounds(100, 100, MainFrame.WIDTH+15, MainFrame.HEIGHT+50);
-		frame.setBounds(200, 200, MainFrame.WIDTH+15, MainFrame.HEIGHT+39);
+		frame.setBounds(200, 200, GamePanel.WIDTH+15, GamePanel.HEIGHT+39);
 
 		//スタート画面に設定値入力用のフィールドを追加
 	    final JTextField field_port = new JTextField(10);

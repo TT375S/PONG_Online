@@ -44,16 +44,13 @@ public class Ball extends Sprite{
 		//(左)
 		if(x < r){
 			System.out.println("WallHit_L");
-			//System.out.println("WallHit_L: " + x +" " + r + "velo "+vx +" /"+vy);
 			x = r;
-			//System.out.println("newx " + x);
 			changeV(true);
-			//System.out.println("changedvelo "+vx +" /"+vy);
 		}
 		//(右)
-		else if(x > MainFrame.WIDTH-r){
+		else if(x > GamePanel.WIDTH-r){
 			System.out.println("WallHit_R");
-			x = MainFrame.WIDTH-r;
+			x = GamePanel.WIDTH-r;
 			changeV(true);
 		}
 		//ボールが画面の上下のワクに達したら、ボールは消える
@@ -65,9 +62,9 @@ public class Ball extends Sprite{
 			delete();
 		}
 		//(下)
-		else if(y > MainFrame.HEIGHT-r){
+		else if(y > GamePanel.HEIGHT-r){
 			System.out.println("WallHit_D");
-			y = MainFrame.HEIGHT-r;
+			y = GamePanel.HEIGHT-r;
 			changeV(false);
 			delete();
 		}
@@ -77,7 +74,7 @@ public class Ball extends Sprite{
 		isExist = false;
 	}
 
-	//強制的にY座標設定
+	//強制的にY座標設定。バーにヒットした時強制的に上に載せるのに使用する。敵バーのときは変えるべきだけど面倒なのでそのまま
 	public void setYon(double y){
 		this.y = y-r;
 	}
