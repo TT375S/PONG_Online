@@ -24,6 +24,7 @@ public class GamePanel extends JPanel
 	private int key;
 	private NetworkManager networkManager;
 	private JTextField chatInputField;
+	private String message = "";
 	public GamePanel(){
 		//チャット用テキストフィールドを追加
 		this.chatInputField = new JTextField(8);
@@ -82,7 +83,8 @@ public class GamePanel extends JPanel
 			//チャット用テキストフィールドでEnterが押された場合に実行
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				//バーにチャットメッセージをセットなど
-				bar.setMessage(chatInputField.getText());
+				message = chatInputField.getText();
+				bar.setMessage(message);
 				chatInputField.setText("");
 				System.out.println("chat msg is settlement.");
 			}
@@ -137,8 +139,14 @@ public class GamePanel extends JPanel
 			bar.update();
 			ball.update();
 
-			//現在の状態を送信。プレイヤーバーとボールの位置だけ。
-			networkManager.out.println(bar.x + " " + bar.y + " " + ball.x + " " + ball.y);
+			//現在の状態を送信。プレイヤーバーとボールの位置とこちらのメッセージ。
+			//TODO:入力欄を入力途中でもリアルタイムに送信したほうがよい？
+			//ボールの位置は、反対にいる相手から見ると反対側になる。
+			int relativeBallX = this.WIDTH-(int)ball.x;
+			int relativeBallY = this.HEIGHT-(int)ball.y;
+			int relativeBarX = this.WIDTH -(int) bar.x - bar.width;
+			int relativeBarY = this.HEIGHT -(int) bar.y + bar.height;
+			networkManager.out.println(relativeBarX + " " + relativeBarY + " " + relativeBallX + " " + relativeBallY + " " + bar.getMessage());
 			networkManager.out.flush();
 			//ブロック崩しの名残
 //			for(int i=0; i<12; i++){
@@ -154,7 +162,7 @@ public class GamePanel extends JPanel
 
 			bar_enemy.update();
 
-			//受信。エネミーバーの位置だけ。
+			//受信。エネミーバーの位置と相手のメッセージ。
 			String inputLine = null;
 			try {
 				inputLine = networkManager.in.readLine();
@@ -166,6 +174,8 @@ public class GamePanel extends JPanel
 				bar_enemy.x = Double.parseDouble(inputTokens[0]) ;
 				//y軸座標は今のところ変わらないのでいらない
 				//bar_enemy.y = Double.parseDouble(inputTokens[1]) ;
+				if(inputTokens[2].equals("/EMPTY"))bar_enemy.setMessage("");
+				else bar_enemy.setMessage(inputTokens[2]);
 			}
 
 			int check = bar.collision(ball);
@@ -196,8 +206,10 @@ public class GamePanel extends JPanel
 		else{
 			keyCheck();
 			bar.update();
-			//現在の状態を送信。プレイヤーバーの位置だけ。
-			networkManager.out.println(bar.x + " " + bar.y);
+			//現在の状態を送信。プレイヤーバーの位置とこちらのメッセージ。
+			int relativeBarX = this.WIDTH -(int) bar.x - bar.width;
+			int relativeBarY = this.HEIGHT -(int) bar.y + bar.height;
+			networkManager.out.println(relativeBarX + " " + relativeBarY + " " + bar.getMessage());
 			networkManager.out.flush();
 			//受信。エネミーバーとボールの位置だけ。
 			String inputLine = null;
@@ -213,6 +225,8 @@ public class GamePanel extends JPanel
 				//bar_enemy.y = Double.parseDouble(inputTokens[1]) ;
 				ball.x = Double.parseDouble(inputTokens[2]);
 				ball.y = Double.parseDouble(inputTokens[3]);
+				if(inputTokens[4].equals("/EMPTY"))bar_enemy.setMessage("");
+				else bar_enemy.setMessage(inputTokens[4]);
 			}
 
 			//サーバーの時はball.update()でやっちゃつてるバウンダリチェックを別にやってる

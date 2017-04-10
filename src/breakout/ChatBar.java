@@ -20,6 +20,12 @@ public class ChatBar extends Bar{
 		this.isExist = true;
 	}
 
+	public String getMessage(){
+		String ret = message;;
+		if(message.equals("")) ret = "/EMPTY";
+		return ret;
+	}
+
 	@Override
 	public void draw(Graphics2D g) {
 		if(message.length() != 0)System.out.println("drawChat " + message);
