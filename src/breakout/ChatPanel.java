@@ -35,6 +35,7 @@ public class ChatPanel extends JPanel
 		area = new JTextArea("...");
 		updateChatLog("SYSTEM", "start chat.");
 		area.setPreferredSize(new Dimension(this.HEIGHT -20, this.WIDTH));
+		//area.setPreferredSize(new Dimension(100, 200));
 		scrollpane = new JScrollPane(area);
 		this.add(this.scrollpane);
 
@@ -73,7 +74,7 @@ public class ChatPanel extends JPanel
 	public void updateChatLog(String userName, String message){
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-		//String text =  area.getText() +  "\n" + sdf.format(date) + "  "+ userName + ":   " + message;
+		//String text =  area.getText() +  "\n" + sdf.format(date) + "  <font size=2 color=#ff0000>"+ userName + "</font>:   " + message;
 		area.setText(area.getText() +  "\n" + sdf.format(date) + "  "+ userName + ":   " + message);
 	}
 
@@ -98,11 +99,15 @@ public class ChatPanel extends JPanel
 	public void run() {
 		//敵方がチャット送って来てないかをしらべて更新(エレガントとは程遠い)
 		String lastEnemyMessage="";
+		int i=0;
 		while(true){
-			System.out.println("ThreadWorking");
+			System.out.println("ChatLog updated");
+			i++;
+			i %= 64;
 			if(!gamePanel.bar_enemy.getMessage().equals(lastEnemyMessage)){
 				lastEnemyMessage = gamePanel.bar_enemy.getMessage();
 				updateChatLog("ENEMY", lastEnemyMessage);
+				System.out.println("ChatLog updated");
 			}
 		}
 	}

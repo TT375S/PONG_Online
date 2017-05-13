@@ -58,9 +58,16 @@ public class MainFrame extends JFrame{
 	private void initGameDisplay(){
 		startPanel.setVisible(false);
 		this.remove(startPanel);
-        this.setLayout(new GridLayout(1, 2));
-        this.add(gamePanel);
-        this.add(chatPanel);
+        //this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		this.setLayout(new GridLayout(1, 2));
+		//setLayout(new FlowLayout());
+//		Panel p1 = new Panel();
+//		p1.setLayout(new BoxLayout(p1, BoxLayout.X_AXIS));
+//		p1.add(gamePanel);
+//		p1.add(chatPanel);
+//        this.add(p1);
+		this.add(gamePanel);
+		this.add(chatPanel);
         gamePanel.setVisible(true);
         chatPanel.setVisible(true);
 
