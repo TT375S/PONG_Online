@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 public class Ball extends Sprite{
 	int r;
 	int R;
-	final static double VMAX = 2;
+	final static double VMAX = 1;
 	final static double VMAX2 = VMAX*VMAX;
 	final static double XMAX = VMAX - 1;
 	double vx;

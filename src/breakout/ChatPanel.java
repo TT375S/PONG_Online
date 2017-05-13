@@ -49,6 +49,7 @@ public class ChatPanel extends JPanel
 		this.setSize(WIDTH, HEIGHT);
 
 		init();
+		new Thread(this).start();
 	}
 
 	//パーツの配置
@@ -76,6 +77,11 @@ public class ChatPanel extends JPanel
 		area.setText(area.getText() +  "\n" + sdf.format(date) + "  "+ userName + ":   " + message);
 	}
 
+	public void start(){
+		Thread thread = new Thread(this);
+		thread.start();
+	}
+
 	//画面上のすべてのパーツを更新
 	public void update(){
 	}
@@ -93,6 +99,7 @@ public class ChatPanel extends JPanel
 		//敵方がチャット送って来てないかをしらべて更新(エレガントとは程遠い)
 		String lastEnemyMessage="";
 		while(true){
+			System.out.println("ThreadWorking");
 			if(!gamePanel.bar_enemy.getMessage().equals(lastEnemyMessage)){
 				lastEnemyMessage = gamePanel.bar_enemy.getMessage();
 				updateChatLog("ENEMY", lastEnemyMessage);

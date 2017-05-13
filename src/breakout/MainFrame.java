@@ -64,6 +64,7 @@ public class MainFrame extends JFrame{
         gamePanel.setVisible(true);
         chatPanel.setVisible(true);
 
+        //chatPanel.start();
 	}
 
 }
