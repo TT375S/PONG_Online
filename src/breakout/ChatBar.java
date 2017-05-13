@@ -24,13 +24,13 @@ public class ChatBar extends Bar{
 
 	public String getMessage(){
 		String ret = message;;
+		if(ret == null) ret = "";
 		if(message.equals("")) ret = "/EMPTY";
 		return ret;
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
-		if(message.length() != 0)System.out.println("drawChat " + message);
 		g.fillRect((int)x, (int)y, width, height);
 		g.setFont(new Font("Arial", Font.BOLD, 50));
 		g.drawString(message, (int)x, (int)y);

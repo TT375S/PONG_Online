@@ -1,9 +1,8 @@
 package breakout;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.io.IOException;
 
+//クライアント側のゲームパネル
 public class ClientGamePanel extends AbstractOnlineGamePanel{
 	NetworkManager networkManager;
 	public ClientGamePanel(int port, String... host){
@@ -17,7 +16,7 @@ public class ClientGamePanel extends AbstractOnlineGamePanel{
 		super.start();
 	}
 
-	//画面上のすべてのパーツを更新
+	//画面上のすべてのパーツを更新(クライアント側はオフラインやサーバモードとは処理が別)
 	public void update(){
 		//現在の状態を送信
 		networkManager.out.println(createSendData());
@@ -30,13 +29,20 @@ public class ClientGamePanel extends AbstractOnlineGamePanel{
 			e.printStackTrace();
 		}
 
-		super.update();
+		keyCheck();
+		bar.update();
 
+		//サーバーの時はball.update()でやっちゃつてるバウンダリチェックを別にやってる
+		ball.checkOver();
 		//ballが画面外に出るなどして存在しなくなった場合、ゲームオーバー
 		if(!ball.isExist()){
+			anime = false;
 			networkManager.disconect();
 		}
 	}
+
+	private String lastMessage = "";
+	private String lastEnemyMessage= "";
 
 	@Override
 	//送信用データ作成
@@ -59,23 +65,13 @@ public class ClientGamePanel extends AbstractOnlineGamePanel{
 			ball.x = Double.parseDouble(inputTokens[2]);
 			ball.y = Double.parseDouble(inputTokens[3]);
 			if(inputTokens[4].equals("/EMPTY"))bar_enemy.setMessage("");
-			else bar_enemy.setMessage(inputTokens[4]);
+			else{
+				if(!lastEnemyMessage.equals(inputTokens[4])){
+					bar_enemy.setMessage(inputTokens[4]);
+					lastEnemyMessage = inputTokens[4];
+					if(chatPanel != null)chatPanel.updateChatLog("ENEMY", lastEnemyMessage);
+				}
+			}
 		}
-	}
-
-	//画面描画。全てのパーツをここで描画する
-	public void draw(Graphics2D g){
-		//背景黒塗り
-		g.setColor(Color.DARK_GRAY);
-		g.fillRect(0, 0, WIDTH, HEIGHT);
-		//パーツのカラー設定
-		g.setColor(Color.WHITE);
-
-		if(ball.isExist()) ball.draw(g);
-
-		bar.draw(g);
-		bar_enemy.draw(g);
-		//ゲームオーバー処理
-		if(!anime) g.drawString("GAME OVER", GamePanel.WIDTH/2, GamePanel.HEIGHT/2);
 	}
 }

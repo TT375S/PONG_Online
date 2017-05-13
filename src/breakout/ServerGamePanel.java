@@ -1,9 +1,8 @@
 package breakout;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.io.IOException;
 
+//サーバーモードでのゲームパネル
 public class ServerGamePanel extends AbstractOnlineGamePanel{
 	NetworkManager networkManager;
 	public ServerGamePanel(int port, String... host){
@@ -50,6 +49,8 @@ public class ServerGamePanel extends AbstractOnlineGamePanel{
 		return relativeBarX + " " + relativeBarY + " " + relativeBallX + " " + relativeBallY + " " + bar.getMessage();
 	}
 
+	private String lastEnemyMessage = "";
+
 	@Override
 	//受信データ解釈
 	public void digestRecieveData(String receievedData){
@@ -60,23 +61,13 @@ public class ServerGamePanel extends AbstractOnlineGamePanel{
 			//y軸座標は今のところ変わらないのでいらない
 			//bar_enemy.y = Double.parseDouble(inputTokens[1]) ;
 			if(inputTokens[2].equals("/EMPTY"))bar_enemy.setMessage("");
-			else bar_enemy.setMessage(inputTokens[2]);
+			else{
+				if(!lastEnemyMessage.equals(inputTokens[2])){
+					bar_enemy.setMessage(inputTokens[2]);
+					lastEnemyMessage = inputTokens[2];
+					if(chatPanel != null)chatPanel.updateChatLog("ENEMY", lastEnemyMessage);
+				}
+			}
 		}
-	}
-
-	//画面描画。全てのパーツをここで描画する
-	public void draw(Graphics2D g){
-		//背景黒塗り
-		g.setColor(Color.DARK_GRAY);
-		g.fillRect(0, 0, WIDTH, HEIGHT);
-		//パーツのカラー設定
-		g.setColor(Color.WHITE);
-
-		if(ball.isExist()) ball.draw(g);
-
-		bar.draw(g);
-		bar_enemy.draw(g);
-		//ゲームオーバー処理
-		if(!anime) g.drawString("GAME OVER", GamePanel.WIDTH/2, GamePanel.HEIGHT/2);
 	}
 }

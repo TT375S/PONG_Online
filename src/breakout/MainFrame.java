@@ -41,6 +41,7 @@ public class MainFrame extends JFrame{
             public void actionPerformed(ActionEvent e){
             	gamePanel = new ServerGamePanel(Integer.parseInt(startPanel.field_port.getText()), startPanel.field_hostName.getText());
             	chatPanel = new ChatPanel(gamePanel);
+            	((ServerGamePanel)gamePanel).chatPanel = chatPanel;
             	initGameDisplay();
             }
         });
@@ -50,6 +51,7 @@ public class MainFrame extends JFrame{
             public void actionPerformed(ActionEvent e){
             	gamePanel = new ClientGamePanel(Integer.parseInt(startPanel.field_port.getText()), startPanel.field_hostName.getText());
             	chatPanel = new ChatPanel(gamePanel);
+            	((ClientGamePanel)gamePanel).chatPanel = chatPanel;
             	initGameDisplay();
             }
         });

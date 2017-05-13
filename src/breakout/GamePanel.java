@@ -8,6 +8,7 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JPanel;
 
+//オフラインでのゲームパネル。全てのゲームパネルのスーパークラス
 public class GamePanel extends JPanel
 	implements Runnable, KeyListener{
 	public static final int WIDTH = 800;

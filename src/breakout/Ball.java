@@ -2,7 +2,6 @@ package breakout;
 
 import java.awt.Graphics2D;
 
-
 public class Ball extends Sprite{
 	int r;
 	int R;
