@@ -22,7 +22,7 @@ public class ChatPanel extends JPanel
 
 	private JTextField chatInputField;
 	private String message = "";
-	private JTextArea area;
+	private JTextArea chatLog;
 	private JScrollPane scrollpane;
 
 	public ChatPanel(GamePanel gamePanel){
@@ -32,11 +32,11 @@ public class ChatPanel extends JPanel
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		//チャットログ
-		area = new JTextArea("...");
+		chatLog = new JTextArea("...");
 		updateChatLog("SYSTEM", "start chat.");
-		area.setPreferredSize(new Dimension(this.HEIGHT -20, this.WIDTH));
+		chatLog.setPreferredSize(new Dimension(this.HEIGHT -20, this.WIDTH));
 		//area.setPreferredSize(new Dimension(100, 200));
-		scrollpane = new JScrollPane(area);
+		scrollpane = new JScrollPane(chatLog);
 		this.add(this.scrollpane);
 
 		//チャット用テキストフィールドを追加
@@ -75,7 +75,7 @@ public class ChatPanel extends JPanel
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 		//String text =  area.getText() +  "\n" + sdf.format(date) + "  <font size=2 color=#ff0000>"+ userName + "</font>:   " + message;
-		area.setText(area.getText() +  "\n" + sdf.format(date) + "  "+ userName + ":   " + message);
+		chatLog.setText(chatLog.getText() +  "\n" + sdf.format(date) + "  "+ userName + ":   " + message);
 	}
 
 	public void start(){

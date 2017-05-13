@@ -7,6 +7,8 @@ import java.awt.Graphics2D;
 //打った文章がラケットバーになる。一回、打ち返すと消えてしまう。
 public class ChatBar extends Bar{
 	private String message = "Hello!";
+	private int CharWidth = 30;
+
 	public ChatBar(double x, double y, Ball b){
 		super(x, y, b);
 		this.setMessage(message);
@@ -15,7 +17,7 @@ public class ChatBar extends Bar{
 	//文章設定。
 	public void setMessage(String msg){
 		System.out.println("setMessage " + message);
-		this.width = msg.length()*30;
+		this.width = msg.length() * CharWidth;
 		message = msg;
 		this.isExist = true;
 	}
