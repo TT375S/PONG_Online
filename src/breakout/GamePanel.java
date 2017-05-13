@@ -15,13 +15,14 @@ public class GamePanel extends JPanel
 	public static final int HEIGHT = 500;
 
 	protected Ball ball;
-	final protected int initialX_ball = 300;
-	final protected int initialY_ball = 200;
+	final protected int initialX_ball = 400;
+	final protected int initialY_ball = 250;
 
+	final protected int initialYOffset_bar = 50;
 	public ChatBar bar;
-	final protected int initialY_bar = 400;
+	final protected int initialY_bar = GamePanel.HEIGHT-initialYOffset_bar;
 	public ChatBar bar_enemy;
-	final protected int initialY_enemyBar = 30;
+	final protected int initialY_enemyBar = initialYOffset_bar;
 	final protected int initialWidth_bar = WIDTH/2-Bar.WIDTH/2;
 
 	protected boolean anime; /*　画面が動いているか否かのフラグ */
@@ -65,7 +66,7 @@ public class GamePanel extends JPanel
 				System.out.println("HIT1");
 				ball.changeV(false);
 				//強制的にバーの上に移動させる
-				ball.setYon(400);
+				ball.setYon(initialY_bar);
 			}
 //			else if(check != -1) ball.changeV(true);
 
@@ -75,12 +76,11 @@ public class GamePanel extends JPanel
 				System.out.println("HIT2");
 				ball.changeV(false);
 				//強制的にバーの上に移動させる(位置に注意！上下反転してるので厚さも考える)
-				ball.setYon(70);
+				ball.setYon(initialY_enemyBar + bar_enemy.height);
 			}
 
 			//ballが画面外に出るなどして存在しなくなった場合、ゲームオーバー
 			if(!ball.isExist()) anime = false;
-			return;
 	}
 
 	//TODO:同時押しに対応させるべき
@@ -97,21 +97,17 @@ public class GamePanel extends JPanel
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO �����������ꂽ���\�b�h�E�X�^�u
 		key = e.getKeyCode();
 //		System.out.println(key);
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO �����������ꂽ���\�b�h�E�X�^�u
 		key = 0;
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO �����������ꂽ���\�b�h�E�X�^�u
-
 	}
 
 	//画面描画。全てのパーツをここで描画する

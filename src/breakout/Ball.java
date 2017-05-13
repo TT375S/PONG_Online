@@ -84,6 +84,7 @@ public class Ball extends Sprite{
 
 	@Override
 	public void draw(Graphics2D g) {
+		//Ballクラスのx,yは中心座標だが、fillOvalの第一・第二引数は左上の座標になる。
 		g.fillOval((int)(x-r), (int)(y-r), R, R);
 	}
 	//衝突判定は同じく、他のパーツ側での判定にした
