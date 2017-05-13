@@ -1,0 +1,111 @@
+package breakout;
+
+import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+public class ChatPanel extends JPanel
+	implements Runnable, KeyListener{
+	public static final int WIDTH = 800;
+	public static final int HEIGHT = 500;
+
+	private GamePanel gamePanel;
+
+	private JTextField chatInputField;
+	private String message = "";
+	private JTextArea area;
+	private JScrollPane scrollpane;
+
+	public ChatPanel(GamePanel gamePanel){
+		this.gamePanel = gamePanel;
+
+		//チャット用テキストフィールドを追加
+		this.chatInputField = new JTextField(8);
+		this.add(this.chatInputField);
+		//チャットログ
+		area = new JTextArea("こんにちは");
+		scrollpane = new JScrollPane(area);
+		this.add(this.scrollpane);
+
+		chatInputField.addKeyListener(this);
+		//Frame設定
+		this.setFocusable(true);
+		this.addKeyListener(this);
+		this.setSize(WIDTH, HEIGHT);
+	}
+
+	//パーツの配置(明示的に生成元などで呼ぶ必要あり)
+	public void init(){
+		final ChatBar bar = gamePanel.bar;
+		//this.setFocusable(true);
+		chatInputField.addActionListener(new java.awt.event.ActionListener() {
+			//チャット用テキストフィールドでEnterが押された場合に実行
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				//バーにチャットメッセージをセットなど
+				message = chatInputField.getText();
+				bar.setMessage(message);
+				chatInputField.setText("");
+				updateChatLog("YOU", message);
+				System.out.println("chat msg is settlement.");
+			}
+		});
+	}
+
+	//チャットログの更新
+	public void updateChatLog(String userName, String message){
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		area.setText(area.getText() +  "\n" + sdf.format(date) + " "+ userName + ": " + message);
+	}
+
+	//画面上のすべてのパーツを更新
+	public void update(){
+	}
+
+
+
+	//画面描画。全てのパーツをここで描画する
+	public void draw(Graphics2D g){
+	}
+
+
+	//ゲーム実行中はスレッドでこれが常に繰り返し実行される
+	@Override
+	public void run() {
+		//敵方がチャット送って来てないかをしらべて更新(エレガントとは程遠い)
+		String lastEnemyMessage="";
+		while(true){
+			if(!gamePanel.bar_enemy.getMessage().equals(lastEnemyMessage)){
+				lastEnemyMessage = gamePanel.bar_enemy.getMessage();
+				updateChatLog("ENEMY", lastEnemyMessage);
+			}
+		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+}
+

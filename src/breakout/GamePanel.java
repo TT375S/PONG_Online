@@ -8,7 +8,6 @@ import java.awt.event.KeyListener;
 import java.io.IOException;
 
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 public class GamePanel extends JPanel
 	implements Runnable, KeyListener{
@@ -17,19 +16,13 @@ public class GamePanel extends JPanel
 	public static boolean OFFLINE = false;
 
 	private Ball ball;
-	private Block[] block;
-	private ChatBar bar;
-	private ChatBar bar_enemy;
+	public ChatBar bar;
+	public ChatBar bar_enemy;
 	private boolean anime;
 	private int key;
 	private NetworkManager networkManager;
-	private JTextField chatInputField;
-	private String message = "";
+
 	public GamePanel(){
-		//チャット用テキストフィールドを追加
-		this.chatInputField = new JTextField(8);
-		this.add(this.chatInputField);
-		chatInputField.addKeyListener(this);
 		//Frame設定
 		this.setFocusable(true);
 		this.addKeyListener(this);
@@ -37,20 +30,6 @@ public class GamePanel extends JPanel
 
 		init();
 	}
-
-	//ネットワーク設定を画面作成時にやるつもりだったけど、後の方が良さそうだったので変更した名残
-//	public MainFrame(){
-//		this(true, 8080);
-//	}
-//
-//	public MainFrame(boolean isServer, int port, String... host){
-//		if(!DEBUG)networkManager = new NetworkManager(isServer, port, host);
-//		this.setFocusable(true);
-//		this.addKeyListener(this);
-//		this.setSize(WIDTH, HEIGHT);
-//
-//		init();
-//	}
 
 	public void start(){
 		this.start(true, -1);
@@ -66,29 +45,13 @@ public class GamePanel extends JPanel
 	}
 
 	//パーツの配置
-	public void init(){
+	private void init(){
 		System.out.println("init");
 		ball = new Ball(300, 200);
-		//ブロック崩しの名残
-//		block = new Block[12];
-//		for(int i=0; i<3; i++){
-//			for(int j=0; j<4; j++){
-//				block[i*4+j] = new Block(51+j*50, 52+i*20);
-//			}
-//		}
+
 		bar = new ChatBar(WIDTH/2-Bar.WIDTH/2, 400, ball);
 		bar_enemy = new ChatBar(WIDTH/2-Bar.WIDTH/2, 30, ball);
 		//this.setFocusable(true);
-		chatInputField.addActionListener(new java.awt.event.ActionListener() {
-			//チャット用テキストフィールドでEnterが押された場合に実行
-			public void actionPerformed(java.awt.event.ActionEvent e) {
-				//バーにチャットメッセージをセットなど
-				message = chatInputField.getText();
-				bar.setMessage(message);
-				chatInputField.setText("");
-				System.out.println("chat msg is settlement.");
-			}
-		});
 	}
 
 	//画面上のすべてのパーツを更新
@@ -97,17 +60,7 @@ public class GamePanel extends JPanel
 		if(OFFLINE){
 			keyCheck();
 			ball.update();
-			//ブロック崩しの名残
-//			for(int i=0; i<12; i++){
-////				block[i].update();
-//				if(!block[i].isExist()) continue;
-//				int check = block[i].collision(ball);
-//				if(check == -1) continue;
-//				//ブロックのどの面と当たったかで反射方向を変える
-//				if(check == 0 || check == 2) ball.changeV(false);
-//				else ball.changeV(true);
-//				block[i].delete();
-//			}
+
 			bar.update();
 			bar_enemy.update();
 			int check = bar.collision(ball);
@@ -148,17 +101,6 @@ public class GamePanel extends JPanel
 			int relativeBarY = this.HEIGHT -(int) bar.y + bar.height;
 			networkManager.out.println(relativeBarX + " " + relativeBarY + " " + relativeBallX + " " + relativeBallY + " " + bar.getMessage());
 			networkManager.out.flush();
-			//ブロック崩しの名残
-//			for(int i=0; i<12; i++){
-////				block[i].update();
-//				if(!block[i].isExist()) continue;
-//				int check = block[i].collision(ball);
-//				if(check == -1) continue;
-//				//ブロックのどの面と当たったかで反射方向を変える
-//				if(check == 0 || check == 2) ball.changeV(false);
-//				else ball.changeV(true);
-//				block[i].delete();
-//			}
 
 			bar_enemy.update();
 
