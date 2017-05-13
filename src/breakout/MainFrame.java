@@ -1,9 +1,11 @@
 package breakout;
 
-import java.awt.GridLayout;
+import java.awt.Dimension;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 
 //主となるフレーム。ウィンドウみたいなもん
@@ -57,24 +59,30 @@ public class MainFrame extends JFrame{
         });
 	}
 
-	//画面の並べ方や表示をセット...するつもりだったがうまくできてない
+	//画面の並べ方や表示をセット
 	private void initGameDisplay(){
+		//メニュー画面には消えてもらう
 		startPanel.setVisible(false);
 		this.remove(startPanel);
-        //this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		this.setLayout(new GridLayout(1, 2));
-		//setLayout(new FlowLayout());
-//		Panel p1 = new Panel();
-//		p1.setLayout(new BoxLayout(p1, BoxLayout.X_AXIS));
-//		p1.add(gamePanel);
-//		p1.add(chatPanel);
-//        this.add(p1);
-		this.add(gamePanel);
-		this.add(chatPanel);
+		//パネル上でレイアウトする
+		Panel p1 = new Panel();
+		p1.setLayout(new BoxLayout(p1, BoxLayout.X_AXIS));
+
+		//setMaximumSizeをやらなくちゃダメらしい
+		gamePanel.setPreferredSize(new Dimension(GamePanel.WIDTH, GamePanel.HEIGHT));
+		gamePanel.setMaximumSize(new Dimension(GamePanel.WIDTH, GamePanel.HEIGHT));
+		chatPanel.setPreferredSize(new Dimension(ChatPanel.WIDTH, ChatPanel.HEIGHT));
+		chatPanel.setMaximumSize(new Dimension( ChatPanel.WIDTH, ChatPanel.HEIGHT));
+
+		p1.add(gamePanel);
+		p1.add(chatPanel);
+
+        this.add(p1);
+
+//		this.add(gamePanel);
+//		this.add(chatPanel);
         gamePanel.setVisible(true);
         chatPanel.setVisible(true);
-
-        //chatPanel.start();
 	}
 
 }

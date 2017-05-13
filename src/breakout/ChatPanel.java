@@ -30,8 +30,7 @@ public class ChatPanel extends JPanel{
 		//チャットログ
 		chatLog = new JTextArea("...");
 		updateChatLog("SYSTEM", "start chat.");
-		chatLog.setPreferredSize(new Dimension(ChatPanel.HEIGHT -20, ChatPanel.WIDTH));
-		//area.setPreferredSize(new Dimension(100, 200));
+		chatLog.setPreferredSize(new Dimension( ChatPanel.WIDTH, ChatPanel.HEIGHT));
 		scrollpane = new JScrollPane(chatLog);
 		this.add(this.scrollpane);
 
