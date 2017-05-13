@@ -24,7 +24,7 @@ public class MainFrame extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
 //		this.setBounds(100, 100, Mainthis.WIDTH+15, Mainthis.HEIGHT+50);
-		this.setBounds(200, 200, GamePanel.WIDTH+ chatPanel.WIDTH+ 15, GamePanel.HEIGHT+39);
+		this.setBounds(200, 200, GamePanel.WIDTH+ ChatPanel.WIDTH+ 15, GamePanel.HEIGHT+39);
 
 		//スタート画面のボタン類の設定。他のパネルにアクセスする必要があるので、StartPanelクラスではなくここでやってしまっている
 		startPanel.btn_offline.addActionListener(new ActionListener(){

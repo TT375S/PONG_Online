@@ -6,7 +6,6 @@ public abstract class AbstractOnlineGamePanel extends GamePanel{
 	}
 
 	//なぜかアクセスできない...
-	@SuppressWarnings("unused")
 	protected NetworkManager networkManager;
 	public ChatPanel chatPanel;
 	//送信用データ作成

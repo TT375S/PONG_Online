@@ -49,7 +49,7 @@ public class ServerGamePanel extends AbstractOnlineGamePanel{
 		return relativeBarX + " " + relativeBarY + " " + relativeBallX + " " + relativeBallY + " " + bar.getMessage();
 	}
 
-	private String lastEnemyMessage = "";
+	private String lastEnemyMessage = ""; /*　前回の敵側のメッセージ */
 
 	@Override
 	//受信データ解釈
@@ -60,14 +60,16 @@ public class ServerGamePanel extends AbstractOnlineGamePanel{
 			bar_enemy.x = Double.parseDouble(inputTokens[0]) ;
 			//y軸座標は今のところ変わらないのでいらない
 			//bar_enemy.y = Double.parseDouble(inputTokens[1]) ;
+			//メッセージ部分を解釈。空白だと受け渡しに不都合があるので/EMPTYで置き換えてやりとりしている
 			if(inputTokens[2].equals("/EMPTY"))bar_enemy.setMessage("");
 			else{
+				//前回と違うメッセージなら、バーにセットとかチャットログ更新とかする
 				if(!lastEnemyMessage.equals(inputTokens[2])){
 					bar_enemy.setMessage(inputTokens[2]);
-					lastEnemyMessage = inputTokens[2];
 					if(chatPanel != null)chatPanel.updateChatLog("ENEMY", lastEnemyMessage);
 				}
 			}
+			lastEnemyMessage = inputTokens[2];
 		}
 	}
 }

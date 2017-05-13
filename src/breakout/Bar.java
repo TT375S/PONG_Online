@@ -5,14 +5,10 @@ public class Bar extends Rect{
 	//public static final int HEIGHT = 60;
 	public static final int WIDTH = 480;
 	public static final int HEIGHT = 15;
-	private Ball ball;
-
 	public Bar(double x, double y, Ball b) {
 		super(x, y);
 		this.width = WIDTH;
 		this.height = HEIGHT;
-		//衝突判定に必要なため、バー側でボールを持つ必要がある。
-		this.ball = b;
 	}
 
 	@Override

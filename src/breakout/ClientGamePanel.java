@@ -41,8 +41,7 @@ public class ClientGamePanel extends AbstractOnlineGamePanel{
 		}
 	}
 
-	private String lastMessage = "";
-	private String lastEnemyMessage= "";
+	private String lastEnemyMessage= "";/*　前回の敵側のメッセージ */
 
 	@Override
 	//送信用データ作成
@@ -64,14 +63,17 @@ public class ClientGamePanel extends AbstractOnlineGamePanel{
 			//bar_enemy.y = Double.parseDouble(inputTokens[1]) ;
 			ball.x = Double.parseDouble(inputTokens[2]);
 			ball.y = Double.parseDouble(inputTokens[3]);
-			if(inputTokens[4].equals("/EMPTY"))bar_enemy.setMessage("");
+			//メッセージ部分を解釈。空白だと受け渡しに不都合があるので/EMPTYで置き換えてやりとりしている
+			if(inputTokens[4].equals("/EMPTY"))
+				bar_enemy.setMessage("");
 			else{
+				//前回と違うメッセージなら、バーにセットとかチャットログ更新とかする
 				if(!lastEnemyMessage.equals(inputTokens[4])){
 					bar_enemy.setMessage(inputTokens[4]);
-					lastEnemyMessage = inputTokens[4];
 					if(chatPanel != null)chatPanel.updateChatLog("ENEMY", lastEnemyMessage);
 				}
 			}
+			lastEnemyMessage = inputTokens[4];
 		}
 	}
 }

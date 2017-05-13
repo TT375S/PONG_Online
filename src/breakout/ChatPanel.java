@@ -53,7 +53,7 @@ public class ChatPanel extends JPanel{
 		chatInputField.addActionListener(new java.awt.event.ActionListener() {
 			//チャット用テキストフィールドでEnterが押された場合に実行
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				//バーにチャットメッセージをセットなど
+				//バーにチャットメッセージをセットしたり、チャットログをアップデートしたり
 				message = chatInputField.getText();
 				bar.setMessage(message);
 				chatInputField.setText("");

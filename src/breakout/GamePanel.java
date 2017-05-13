@@ -24,8 +24,8 @@ public class GamePanel extends JPanel
 	final protected int initialY_enemyBar = 30;
 	final protected int initialWidth_bar = WIDTH/2-Bar.WIDTH/2;
 
-	protected boolean anime;
-	protected int key;
+	protected boolean anime; /*　画面が動いているか否かのフラグ */
+	protected int key; /*入力キーの情報 */
 
 	public GamePanel(){
 		super();
