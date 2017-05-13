@@ -1,11 +1,13 @@
 package breakout;
 
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -13,7 +15,7 @@ import javax.swing.JTextField;
 
 public class ChatPanel extends JPanel
 	implements Runnable, KeyListener{
-	public static final int WIDTH = 800;
+	public static final int WIDTH = 300;
 	public static final int HEIGHT = 500;
 
 	private GamePanel gamePanel;
@@ -26,23 +28,31 @@ public class ChatPanel extends JPanel
 	public ChatPanel(GamePanel gamePanel){
 		this.gamePanel = gamePanel;
 
+
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+		//チャットログ
+		area = new JTextArea("...");
+		updateChatLog("SYSTEM", "start chat.");
+		area.setPreferredSize(new Dimension(this.HEIGHT -20, this.WIDTH));
+		scrollpane = new JScrollPane(area);
+		this.add(this.scrollpane);
+
 		//チャット用テキストフィールドを追加
 		this.chatInputField = new JTextField(8);
 		this.add(this.chatInputField);
-		//チャットログ
-		area = new JTextArea("こんにちは");
-		scrollpane = new JScrollPane(area);
-		this.add(this.scrollpane);
 
 		chatInputField.addKeyListener(this);
 		//Frame設定
 		this.setFocusable(true);
 		this.addKeyListener(this);
 		this.setSize(WIDTH, HEIGHT);
+
+		init();
 	}
 
-	//パーツの配置(明示的に生成元などで呼ぶ必要あり)
-	public void init(){
+	//パーツの配置
+	private void init(){
 		final ChatBar bar = gamePanel.bar;
 		//this.setFocusable(true);
 		chatInputField.addActionListener(new java.awt.event.ActionListener() {
@@ -62,7 +72,8 @@ public class ChatPanel extends JPanel
 	public void updateChatLog(String userName, String message){
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-		area.setText(area.getText() +  "\n" + sdf.format(date) + " "+ userName + ": " + message);
+		//String text =  area.getText() +  "\n" + sdf.format(date) + "  "+ userName + ":   " + message;
+		area.setText(area.getText() +  "\n" + sdf.format(date) + "  "+ userName + ":   " + message);
 	}
 
 	//画面上のすべてのパーツを更新
