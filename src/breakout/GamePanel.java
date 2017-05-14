@@ -5,31 +5,31 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
 
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
+//オフラインでのゲームパネル。全てのゲームパネルのスーパークラス
 public class GamePanel extends JPanel
 	implements Runnable, KeyListener{
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 500;
-	public static boolean OFFLINE = false;
 
-	private Ball ball;
-	private Block[] block;
-	private ChatBar bar;
-	private ChatBar bar_enemy;
-	private boolean anime;
-	private int key;
-	private NetworkManager networkManager;
-	private JTextField chatInputField;
-	private String message = "";
+	protected Ball ball;
+	final protected int initialX_ball = 400;
+	final protected int initialY_ball = 250;
+
+	final protected int initialYOffset_bar = 50;
+	public ChatBar bar;
+	final protected int initialY_bar = GamePanel.HEIGHT-initialYOffset_bar;
+	public ChatBar bar_enemy;
+	final protected int initialY_enemyBar = initialYOffset_bar;
+	final protected int initialWidth_bar = WIDTH/2-Bar.WIDTH/2;
+
+	protected boolean anime; /*　画面が動いているか否かのフラグ */
+	protected int key; /*入力キーの情報 */
+
 	public GamePanel(){
-		//チャット用テキストフィールドを追加
-		this.chatInputField = new JTextField(8);
-		this.add(this.chatInputField);
-		chatInputField.addKeyListener(this);
+		super();
 		//Frame設定
 		this.setFocusable(true);
 		this.addKeyListener(this);
@@ -38,27 +38,7 @@ public class GamePanel extends JPanel
 		init();
 	}
 
-	//ネットワーク設定を画面作成時にやるつもりだったけど、後の方が良さそうだったので変更した名残
-//	public MainFrame(){
-//		this(true, 8080);
-//	}
-//
-//	public MainFrame(boolean isServer, int port, String... host){
-//		if(!DEBUG)networkManager = new NetworkManager(isServer, port, host);
-//		this.setFocusable(true);
-//		this.addKeyListener(this);
-//		this.setSize(WIDTH, HEIGHT);
-//
-//		init();
-//	}
-
 	public void start(){
-		this.start(true, -1);
-	}
-
-	public void start(boolean isServer, int port, String... host){
-		if(port == -1) OFFLINE = true;
-		if(!OFFLINE)networkManager = new NetworkManager(isServer, port, host);
 		Thread thread = new Thread(this);
 		thread.start();
 		System.out.println("Thread start");
@@ -66,48 +46,19 @@ public class GamePanel extends JPanel
 	}
 
 	//パーツの配置
-	public void init(){
+	private void init(){
 		System.out.println("init");
-		ball = new Ball(300, 200);
-		//ブロック崩しの名残
-//		block = new Block[12];
-//		for(int i=0; i<3; i++){
-//			for(int j=0; j<4; j++){
-//				block[i*4+j] = new Block(51+j*50, 52+i*20);
-//			}
-//		}
-		bar = new ChatBar(WIDTH/2-Bar.WIDTH/2, 400, ball);
-		bar_enemy = new ChatBar(WIDTH/2-Bar.WIDTH/2, 30, ball);
-		//this.setFocusable(true);
-		chatInputField.addActionListener(new java.awt.event.ActionListener() {
-			//チャット用テキストフィールドでEnterが押された場合に実行
-			public void actionPerformed(java.awt.event.ActionEvent e) {
-				//バーにチャットメッセージをセットなど
-				message = chatInputField.getText();
-				bar.setMessage(message);
-				chatInputField.setText("");
-				System.out.println("chat msg is settlement.");
-			}
-		});
+		ball = new Ball(initialX_ball, initialY_ball);
+
+		bar = new ChatBar(initialWidth_bar, initialY_bar, ball);
+		bar_enemy = new ChatBar(initialWidth_bar, initialY_enemyBar, ball);
 	}
 
 	//画面上のすべてのパーツを更新
 	public void update(){
-		//-----DEBUG FOR STAND ALONE------
-		if(OFFLINE){
 			keyCheck();
 			ball.update();
-			//ブロック崩しの名残
-//			for(int i=0; i<12; i++){
-////				block[i].update();
-//				if(!block[i].isExist()) continue;
-//				int check = block[i].collision(ball);
-//				if(check == -1) continue;
-//				//ブロックのどの面と当たったかで反射方向を変える
-//				if(check == 0 || check == 2) ball.changeV(false);
-//				else ball.changeV(true);
-//				block[i].delete();
-//			}
+
 			bar.update();
 			bar_enemy.update();
 			int check = bar.collision(ball);
@@ -115,7 +66,7 @@ public class GamePanel extends JPanel
 				System.out.println("HIT1");
 				ball.changeV(false);
 				//強制的にバーの上に移動させる
-				ball.setYon(400);
+				ball.setYon(initialY_bar);
 			}
 //			else if(check != -1) ball.changeV(true);
 
@@ -125,127 +76,15 @@ public class GamePanel extends JPanel
 				System.out.println("HIT2");
 				ball.changeV(false);
 				//強制的にバーの上に移動させる(位置に注意！上下反転してるので厚さも考える)
-				ball.setYon(70);
+				ball.setYon(initialY_enemyBar + bar_enemy.height);
 			}
 
 			//ballが画面外に出るなどして存在しなくなった場合、ゲームオーバー
 			if(!ball.isExist()) anime = false;
-			return;
-		}
-		//-----DEBUG FOR STAND ALONE-----
-
-		if(networkManager.isServer){
-			keyCheck();
-			bar.update();
-			ball.update();
-
-			//現在の状態を送信。プレイヤーバーとボールの位置とこちらのメッセージ。
-			//TODO:入力欄を入力途中でもリアルタイムに送信したほうがよい？
-			//ボールの位置は、反対にいる相手から見ると反対側になる。
-			int relativeBallX = this.WIDTH-(int)ball.x;
-			int relativeBallY = this.HEIGHT-(int)ball.y;
-			int relativeBarX = this.WIDTH -(int) bar.x - bar.width;
-			int relativeBarY = this.HEIGHT -(int) bar.y + bar.height;
-			networkManager.out.println(relativeBarX + " " + relativeBarY + " " + relativeBallX + " " + relativeBallY + " " + bar.getMessage());
-			networkManager.out.flush();
-			//ブロック崩しの名残
-//			for(int i=0; i<12; i++){
-////				block[i].update();
-//				if(!block[i].isExist()) continue;
-//				int check = block[i].collision(ball);
-//				if(check == -1) continue;
-//				//ブロックのどの面と当たったかで反射方向を変える
-//				if(check == 0 || check == 2) ball.changeV(false);
-//				else ball.changeV(true);
-//				block[i].delete();
-//			}
-
-			bar_enemy.update();
-
-			//受信。エネミーバーの位置と相手のメッセージ。
-			String inputLine = null;
-			try {
-				inputLine = networkManager.in.readLine();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if(inputLine != null){
-				String[] inputTokens = inputLine.split(" ");
-				bar_enemy.x = Double.parseDouble(inputTokens[0]) ;
-				//y軸座標は今のところ変わらないのでいらない
-				//bar_enemy.y = Double.parseDouble(inputTokens[1]) ;
-				if(inputTokens[2].equals("/EMPTY"))bar_enemy.setMessage("");
-				else bar_enemy.setMessage(inputTokens[2]);
-			}
-
-			int check = bar.collision(ball);
-			if(check != -1){
-				System.out.println("HIT1");
-				ball.changeV(false);
-				//強制的にバーの上に移動させる
-				ball.setYon(400);
-			}
-//			else if(check != -1) ball.changeV(true);
-
-			check = bar_enemy.collision(ball);
-			//敵バーの衝突
-			if(check != -1){
-				System.out.println("HIT2");
-				ball.changeV(false);
-				//強制的にバーの上に移動させる(位置に注意！上下反転してるので厚さも考える)
-				ball.setYon(70);
-			}
-
-			//ballが画面外に出るなどして存在しなくなった場合、ゲームオーバー
-			if(!ball.isExist()){
-				anime = false;
-				networkManager.disconect();
-			}
-		}
-		//クライアント側のアップデート処理。ボールの位置計算などはホスト側でやってもらう。
-		else{
-			keyCheck();
-			bar.update();
-			//現在の状態を送信。プレイヤーバーの位置とこちらのメッセージ。
-			int relativeBarX = this.WIDTH -(int) bar.x - bar.width;
-			int relativeBarY = this.HEIGHT -(int) bar.y + bar.height;
-			networkManager.out.println(relativeBarX + " " + relativeBarY + " " + bar.getMessage());
-			networkManager.out.flush();
-			//受信。エネミーバーとボールの位置だけ。
-			String inputLine = null;
-			try {
-				inputLine = networkManager.in.readLine();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if(inputLine != null){
-				String[] inputTokens = inputLine.split(" ");
-				bar_enemy.x = Double.parseDouble(inputTokens[0]) ;
-				//y軸座標は今のところ変わらないのでいらない
-				//bar_enemy.y = Double.parseDouble(inputTokens[1]) ;
-				ball.x = Double.parseDouble(inputTokens[2]);
-				ball.y = Double.parseDouble(inputTokens[3]);
-				if(inputTokens[4].equals("/EMPTY"))bar_enemy.setMessage("");
-				else bar_enemy.setMessage(inputTokens[4]);
-			}
-
-			//サーバーの時はball.update()でやっちゃつてるバウンダリチェックを別にやってる
-			ball.checkOver();
-			//ballが画面外に出るなどして存在しなくなった場合、ゲームオーバー
-			if(!ball.isExist()){
-				anime = false;
-				networkManager.disconect();
-			}
-		}
-
 	}
 
 	//TODO:同時押しに対応させるべき
 	public void keyCheck(){
-//		int moveDist = 0;
-//		if(key == KeyEvent.VK_LEFT) moveDist += -5;
-//		else if(key == KeyEvent.VK_RIGHT) moveDist += 5;
-//		bar.move(moveDist);
 		switch(key){
 		case KeyEvent.VK_LEFT:
 			bar.move(-5);
@@ -258,21 +97,17 @@ public class GamePanel extends JPanel
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO �����������ꂽ���\�b�h�E�X�^�u
 		key = e.getKeyCode();
 //		System.out.println(key);
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO �����������ꂽ���\�b�h�E�X�^�u
 		key = 0;
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO �����������ꂽ���\�b�h�E�X�^�u
-
 	}
 
 	//画面描画。全てのパーツをここで描画する
@@ -284,11 +119,7 @@ public class GamePanel extends JPanel
 		g.setColor(Color.WHITE);
 
 		if(ball.isExist()) ball.draw(g);
-		//ブロック崩しの名残
-//		for(int i=0; i<12; i++){
-//			if(!block[i].isExist()) continue;
-//			block[i].draw(g);
-//		}
+
 		bar.draw(g);
 		bar_enemy.draw(g);
 		//ゲームオーバー処理
