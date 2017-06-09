@@ -29,6 +29,8 @@ public class ChatPanel extends JPanel{
 
 		//チャットログ
 		chatLog = new JTextArea("...");
+		chatLog.setEditable(false);  //編集不可にする
+		chatLog.setFocusable(false); //フォーカス不能にする
 		updateChatLog("SYSTEM", "start chat.");
 		chatLog.setPreferredSize(new Dimension( ChatPanel.WIDTH, ChatPanel.HEIGHT));
 		scrollpane = new JScrollPane(chatLog);
@@ -39,7 +41,7 @@ public class ChatPanel extends JPanel{
 		this.add(this.chatInputField);
 
 		//Frame設定
-		this.setFocusable(true);
+		this.setFocusable(false);
 		this.setSize(WIDTH, HEIGHT);
 
 		init();

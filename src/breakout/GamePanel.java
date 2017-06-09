@@ -5,12 +5,14 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
 //オフラインでのゲームパネル。全てのゲームパネルのスーパークラス
 public class GamePanel extends JPanel
-	implements Runnable, KeyListener{
+	implements Runnable, KeyListener, MouseListener{
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 500;
 
@@ -33,6 +35,7 @@ public class GamePanel extends JPanel
 		//Frame設定
 		this.setFocusable(true);
 		this.addKeyListener(this);
+		this.addMouseListener(this);
 		this.setSize(WIDTH, HEIGHT);
 
 		init();
@@ -145,6 +148,36 @@ public class GamePanel extends JPanel
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO 自動生成されたメソッド・スタブ
+		this.requestFocus(true);  //クリックされたときにフォーカスを切り替える
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO 自動生成されたメソッド・スタブ
+
 	}
 
 }
