@@ -16,6 +16,7 @@ public class GamePanel extends JPanel
 	public static final int HEIGHT = 500;
 	public static boolean OFFLINE = false;
 
+
 	private Ball ball;
 	private Block[] block;
 	private ChatBar bar;
@@ -25,6 +26,7 @@ public class GamePanel extends JPanel
 	private NetworkManager networkManager;
 	private JTextField chatInputField;
 	private String message = "";
+
 	public GamePanel(){
 		//チャット用テキストフィールドを追加
 		this.chatInputField = new JTextField(8);
@@ -69,13 +71,7 @@ public class GamePanel extends JPanel
 	public void init(){
 		System.out.println("init");
 		ball = new Ball(300, 200);
-		//ブロック崩しの名残
-//		block = new Block[12];
-//		for(int i=0; i<3; i++){
-//			for(int j=0; j<4; j++){
-//				block[i*4+j] = new Block(51+j*50, 52+i*20);
-//			}
-//		}
+
 		bar = new ChatBar(WIDTH/2-Bar.WIDTH/2, 400, ball);
 		bar_enemy = new ChatBar(WIDTH/2-Bar.WIDTH/2, 30, ball);
 		//this.setFocusable(true);
@@ -97,17 +93,7 @@ public class GamePanel extends JPanel
 		if(OFFLINE){
 			keyCheck();
 			ball.update();
-			//ブロック崩しの名残
-//			for(int i=0; i<12; i++){
-////				block[i].update();
-//				if(!block[i].isExist()) continue;
-//				int check = block[i].collision(ball);
-//				if(check == -1) continue;
-//				//ブロックのどの面と当たったかで反射方向を変える
-//				if(check == 0 || check == 2) ball.changeV(false);
-//				else ball.changeV(true);
-//				block[i].delete();
-//			}
+
 			bar.update();
 			bar_enemy.update();
 			int check = bar.collision(ball);
@@ -148,17 +134,6 @@ public class GamePanel extends JPanel
 			int relativeBarY = this.HEIGHT -(int) bar.y + bar.height;
 			networkManager.out.println(relativeBarX + " " + relativeBarY + " " + relativeBallX + " " + relativeBallY + " " + bar.getMessage());
 			networkManager.out.flush();
-			//ブロック崩しの名残
-//			for(int i=0; i<12; i++){
-////				block[i].update();
-//				if(!block[i].isExist()) continue;
-//				int check = block[i].collision(ball);
-//				if(check == -1) continue;
-//				//ブロックのどの面と当たったかで反射方向を変える
-//				if(check == 0 || check == 2) ball.changeV(false);
-//				else ball.changeV(true);
-//				block[i].delete();
-//			}
 
 			bar_enemy.update();
 
@@ -232,8 +207,13 @@ public class GamePanel extends JPanel
 			//サーバーの時はball.update()でやっちゃつてるバウンダリチェックを別にやってる
 			ball.checkOver();
 			//ballが画面外に出るなどして存在しなくなった場合、ゲームオーバー
+
+			//ここを編集
 			if(!ball.isExist()){
 				anime = false;
+			draw(g);
+
+
 				networkManager.disconect();
 			}
 		}
@@ -284,15 +264,14 @@ public class GamePanel extends JPanel
 		g.setColor(Color.WHITE);
 
 		if(ball.isExist()) ball.draw(g);
-		//ブロック崩しの名残
-//		for(int i=0; i<12; i++){
-//			if(!block[i].isExist()) continue;
-//			block[i].draw(g);
-//		}
 		bar.draw(g);
 		bar_enemy.draw(g);
 		//ゲームオーバー処理
-		if(!anime) g.drawString("GAME OVER", GamePanel.WIDTH/2, GamePanel.HEIGHT/2);
+		if(!anime){
+			if(ball.ismyturn(ball)) g.drawString("YOU WIN!!", GamePanel.WIDTH*7/24, GamePanel.HEIGHT/2);
+			else  g.drawString("YOU LOSE...", GamePanel.WIDTH*7/24, GamePanel.HEIGHT/2);
+
+		} 
 	}
 
 	@Override

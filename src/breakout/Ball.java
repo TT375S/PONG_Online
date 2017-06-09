@@ -88,6 +88,11 @@ public class Ball extends Sprite{
 		g.fillOval((int)(x-r), (int)(y-r), R, R);
 	}
 	//衝突判定は同じく、他のパーツ側での判定にした
+
+	public boolean ismyturn(Ball b) {
+		return b.vy>0; 
+	}
+
 //	@Override
 //	public boolean collision(Ball b) {
 //

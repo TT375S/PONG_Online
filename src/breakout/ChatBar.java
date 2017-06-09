@@ -45,7 +45,7 @@ public class ChatBar extends Bar{
 	@Override
 	public int collision(Ball b){
 		int ret = super.collision(b);
-		if(ret != -1 )this.delete();
+		if(ret != -1)this.delete();
 		return ret;
 	}
 
