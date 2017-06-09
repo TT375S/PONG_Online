@@ -93,4 +93,8 @@ public class Ball extends Sprite{
 //
 //		return false;
 //	}
+	public boolean ismyturn(Ball b){
+		return b.vy>0;
+	}
+
 }
