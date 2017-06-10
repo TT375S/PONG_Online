@@ -78,7 +78,7 @@ public class ClientGamePanel extends AbstractOnlineGamePanel{
 				//前回と違うメッセージなら、バーにセットとかチャットログ更新とかする
 				if(!lastEnemyMessage.equals(inputTokens[4])){
 					bar_enemy.setMessage(inputTokens[4]);
-					if(chatPanel != null)chatPanel.updateChatLog("ENEMY", lastEnemyMessage);
+					if(chatPanel != null)chatPanel.updateChatLog("ENEMY", inputTokens[4]);
 				}
 			}
 			lastEnemyMessage = inputTokens[4];
