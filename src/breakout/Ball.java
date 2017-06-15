@@ -71,7 +71,7 @@ public class Ball extends Sprite{
 			return 3;
 		}
 		//(下)
-		else if(y > GamePanel.HEIGHT-r){
+		else if(y >= GamePanel.HEIGHT-r){
 			System.out.println("WallHit_D");
 			y = GamePanel.HEIGHT-r;
 			changeV(false);
@@ -79,7 +79,7 @@ public class Ball extends Sprite{
 
 			return 4;
 		}
-		System.out.printf("bdcheck: %d %d \n",(int)this.x , (int)this.y);
+		System.out.printf("boundaryCheck: (%4.5f, %4.5f) \n",this.x , this.y);
 		return 0;
 	}
 
@@ -96,8 +96,8 @@ public class Ball extends Sprite{
 //		return x < r || x > MainFrame.WIDTH-r || y < r || y > MainFrame.HEIGHT-r;
 //	}
 
-	public boolean ismyturn(Ball b){
- 		return b.vy>0;
+	public boolean ismyturn(){
+ 		return this.vy>0;
  	}
 
 	@Override
