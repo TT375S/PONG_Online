@@ -20,15 +20,17 @@ public class ClientGamePanel extends AbstractOnlineGamePanel{
 	double lastBallVY = 0; /*前回更新時のボールのy軸速度*/
 	//画面上のすべてのパーツを更新(クライアント側はオフラインやサーバモードとは処理が別)
 	public void update(){
-		//現在の状態を送信
-		networkManager.out.println(createSendData());
-		networkManager.out.flush();
+		if(networkManager.isConnected() ){
+			//現在の状態を送信
+			networkManager.out.println(createSendData());
+			networkManager.out.flush();
 
-		//受信
-		try {
-			digestRecieveData(networkManager.in.readLine());
-		} catch (IOException e) {
-			e.printStackTrace();
+			//受信
+			try {
+				digestRecieveData(networkManager.in.readLine());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		double currentBallVY = ball.y - lastBallY;
@@ -39,9 +41,21 @@ public class ClientGamePanel extends AbstractOnlineGamePanel{
 
 		keyCheck();
 		bar.update();
-
-		//サーバーの時はball.update()でやっちゃつてるバウンダリチェックを別にやってる
-		ball.checkOver();
+		/*
+		 * サーバーの時はball.update()の中でやっちゃってるバウンダリチェックを別にやってる
+		 * (勝敗の判定のためのターンの判定をボールの速度でやってるので当たった辺によって、速度を変えておく。
+		 * クライアントでは速度は使ってないので...)
+		*/
+		switch(ball.checkOverBoundary()){
+			case 3:		//上の辺に当たってゲームオーバー
+				ball.vy = 1000;		//ゲームに勝った判定するため
+				break;
+			case 4:		//下の辺に当たってゲームオーバー
+				ball.y = -1000;
+				break;
+			default:
+				break;
+		}
 		//ballが画面外に出るなどして存在しなくなった場合、ゲームオーバー
 		if(!ball.isExist()){
 			anime = false;

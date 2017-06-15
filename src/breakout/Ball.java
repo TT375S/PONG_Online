@@ -40,33 +40,47 @@ public class Ball extends Sprite{
 	//ボールは特定の方向に画面から出たら消える運命にある
 	@Override
 	public void checkOver() {
+		this.checkOverBoundary();
+	}
+
+	//画面からはみ出てる方向を調べる
+	public int checkOverBoundary() {
 		//(左)
 		if(x < r){
 			System.out.println("WallHit_L");
 			x = r;
 			changeV(true);
+			return 1;
 		}
 		//(右)
 		else if(x > GamePanel.WIDTH-r){
 			System.out.println("WallHit_R");
 			x = GamePanel.WIDTH-r;
 			changeV(true);
+
+			return 2;
 		}
 		//ボールが画面の上下のワクに達したら、ボールは消える
 		//(上)
-		else if(y < r){
+		else if(y <= r){
 			System.out.println("WallHit_U");
 			y = r;
 			changeV(false);
 			delete();
+
+			return 3;
 		}
 		//(下)
-		else if(y > GamePanel.HEIGHT-r){
+		else if(y >= GamePanel.HEIGHT-r){
 			System.out.println("WallHit_D");
 			y = GamePanel.HEIGHT-r;
 			changeV(false);
 			delete();
+
+			return 4;
 		}
+		System.out.printf("boundaryCheck: (%4.5f, %4.5f) \n",this.x , this.y);
+		return 0;
 	}
 
 	public void delete(){
@@ -81,6 +95,10 @@ public class Ball extends Sprite{
 //	private boolean checkWall(){
 //		return x < r || x > MainFrame.WIDTH-r || y < r || y > MainFrame.HEIGHT-r;
 //	}
+
+	public boolean ismyturn(){
+ 		return this.vy>0;
+ 	}
 
 	@Override
 	public void draw(Graphics2D g) {
