@@ -1,5 +1,8 @@
 package breakout;
 
+//wavファイルの再生に使用
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -13,12 +16,12 @@ import javax.swing.JPanel;
 //オフラインでのゲームパネル。全てのゲームパネルのスーパークラス
 public class GamePanel extends JPanel
 	implements Runnable, KeyListener, MouseListener{
-	public static final int WIDTH = 800;
-	public static final int HEIGHT = 500;
+	public static final int WIDTH = 500;
+	public static final int HEIGHT = 800;
 
 	protected Ball ball;
-	final protected int initialX_ball = 400;
-	final protected int initialY_ball = 250;
+	final protected int initialX_ball = 250;
+	final protected int initialY_ball = 400;
 
 	final protected int initialYOffset_bar = 50;
 	public ChatBar bar;
@@ -29,6 +32,9 @@ public class GamePanel extends JPanel
 
 	protected boolean anime; /*　画面が動いているか否かのフラグ */
 	protected int key; /*入力キーの情報 */
+
+	private AudioClip clip1 = Applet.newAudioClip(getClass().getResource("collision.wav"));
+	private AudioClip clip2 = Applet.newAudioClip(getClass().getResource("gameover.wav"));
 
 	public GamePanel(){
 		super();
@@ -69,6 +75,7 @@ public class GamePanel extends JPanel
 				System.out.println("HIT1");
 				ball.changeV(false);
 				//強制的にバーの上に移動させる
+				clip1.play();
 				ball.setYon(initialY_bar);
 			}
 //			else if(check != -1) ball.changeV(true);
@@ -79,11 +86,15 @@ public class GamePanel extends JPanel
 				System.out.println("HIT2");
 				ball.changeV(false);
 				//強制的にバーの上に移動させる(位置に注意！上下反転してるので厚さも考える)
+				clip1.play();
 				ball.setYon(initialY_enemyBar + bar_enemy.height);
 			}
 
 			//ballが画面外に出るなどして存在しなくなった場合、ゲームオーバー
-			if(!ball.isExist()) anime = false;
+			if(!ball.isExist()){
+				anime = false;
+				clip2.play();
+			}
 	}
 
 	//TODO:同時押しに対応させるべき
@@ -127,7 +138,7 @@ public class GamePanel extends JPanel
 		bar_enemy.draw(g);
 		//ゲームオーバー処理
 		if(!anime){
-			g.drawString("GAME OVER", GamePanel.WIDTH/2, GamePanel.HEIGHT/2);
+			g.drawString("GAME OVER", GamePanel.WIDTH*9/40, GamePanel.HEIGHT/2);
 			if(ball.ismyturn())g.drawString("YOU WIN", GamePanel.WIDTH*7/24, GamePanel.HEIGHT/2 + 40);
 			else g.drawString("YOU LOSE", GamePanel.WIDTH*7/24, GamePanel.HEIGHT/2 + 40);
 		}
