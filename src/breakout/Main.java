@@ -1,4 +1,4 @@
-package breakout;
+package breakout1;
 
 public class Main{
 	//このゲーム全体のエントリポイント

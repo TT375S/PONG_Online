@@ -1,4 +1,4 @@
-package breakout;
+package breakout1;
 //ゲームパネルのオンライン版
 public abstract class AbstractOnlineGamePanel extends GamePanel{
 	public  AbstractOnlineGamePanel() {

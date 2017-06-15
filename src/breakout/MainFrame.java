@@ -1,4 +1,4 @@
-package breakout;
+package breakout1;
 
 import java.awt.Dimension;
 import java.awt.Panel;

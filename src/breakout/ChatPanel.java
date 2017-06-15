@@ -1,4 +1,4 @@
-package breakout;
+package breakout1;
 
 import java.awt.Dimension;
 import java.text.SimpleDateFormat;
@@ -12,8 +12,8 @@ import javax.swing.JTextField;
 
 //チャットパネル。ゲームパネルの右に表示される
 public class ChatPanel extends JPanel{
-	public static final int WIDTH = 300;
-	public static final int HEIGHT = 500;
+	public static final int WIDTH = 200;
+	public static final int HEIGHT = 800;
 
 	private GamePanel gamePanel;
 
