@@ -9,7 +9,7 @@ import javax.swing.JTextField;
 
 //ゲームの開始画面。
 public class StartPanel extends JPanel{
-	public static final int WIDTH = 500;
+	public static final int WIDTH = 550;
 	public static final int HEIGHT = 800;
 	JLabel paneltitle = new JLabel("StartPanel");
     public  JTextField field_port;
