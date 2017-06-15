@@ -62,6 +62,10 @@ public class NetworkManager {
 		}
 	}
 
+	public boolean isConnected(){
+		return socket.isConnected();
+	}
+
 	public void disconect(){
 		System.out.println("Network:Disconected");
 		try{

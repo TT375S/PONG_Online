@@ -17,21 +17,24 @@ public class ServerGamePanel extends AbstractOnlineGamePanel{
 
 	//画面上のすべてのパーツを更新
 	public void update(){
-		//現在の状態を送信
-		networkManager.out.println(createSendData());
-		networkManager.out.flush();
-
-		//受信
-		try {
-			digestRecieveData(networkManager.in.readLine());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 		super.update();
+
+		if(networkManager.isConnected()){
+			//現在の状態を送信
+			networkManager.out.println(createSendData());
+			networkManager.out.flush();
+
+			//受信
+			try {
+				digestRecieveData(networkManager.in.readLine());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 
 		//ballが画面外に出るなどして存在しなくなった場合、ゲームオーバー
 		if(!ball.isExist()){
+			anime = false;
 			networkManager.disconect();
 		}
 	}
