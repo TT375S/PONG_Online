@@ -1,4 +1,4 @@
-package breakout1;
+package breakout;
 
 import java.awt.Font;
 import java.awt.Graphics2D;

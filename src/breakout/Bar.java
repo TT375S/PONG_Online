@@ -1,4 +1,4 @@
-package breakout1;
+package breakout;
 
 //長方形型のRectクラスのサブクラスとしてのバー。プレイヤーの分身
 public class Bar extends Rect{

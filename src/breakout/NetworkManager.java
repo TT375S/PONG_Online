@@ -1,4 +1,4 @@
-package breakout1;
+package breakout;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

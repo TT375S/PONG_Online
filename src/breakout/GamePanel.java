@@ -1,5 +1,8 @@
-package breakout1;
+package breakout;
 
+//wavファイルの再生に使用
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -9,7 +12,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
-import java.applet.*;	//wavファイルの再生に使用
 
 //オフラインでのゲームパネル。全てのゲームパネルのスーパークラス
 public class GamePanel extends JPanel
