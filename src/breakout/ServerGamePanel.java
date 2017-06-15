@@ -32,6 +32,7 @@ public class ServerGamePanel extends AbstractOnlineGamePanel{
 
 		//ballが画面外に出るなどして存在しなくなった場合、ゲームオーバー
 		if(!ball.isExist()){
+			repaint();
 			networkManager.disconect();
 		}
 	}

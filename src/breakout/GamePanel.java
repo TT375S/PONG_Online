@@ -126,7 +126,10 @@ public class GamePanel extends JPanel
 		bar.draw(g);
 		bar_enemy.draw(g);
 		//ゲームオーバー処理
-		if(!anime) g.drawString("GAME OVER", GamePanel.WIDTH/2, GamePanel.HEIGHT/2);
+		if(!anime){ 
+			if(ball.vy>0)g.drawString("YOU WIN", GamePanel.WIDTH*7/24, GamePanel.HEIGHT*1/2);
+			else g.drawString("YOU LOSE", GamePanel.WIDTH*7/24, GamePanel.HEIGHT*1/2);
+			}
 	}
 
 	@Override
