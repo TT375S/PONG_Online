@@ -8,12 +8,12 @@
 というものがついてます。
 
 ### ゲーム画面
-右ペインがチャットで、チャットで送った文字がラケットになってます。打ち返すと消えます。これにより2人は負けないためにはチャットを続けざるを得ません。
-<img src="/Users/user1/github/PONG_Online/readme_image/PONG1.png" alt="PONGゲーム画面" title="PONGゲーム画面">
+右ペインがチャットで、チャットで送った文字がラケットになってます。打ち返すと消えます。これにより2人は負けないためにはチャットを続けざるを得ません。  
+<img src="readme_image/PONG1.png" alt="PONGゲーム画面" title="PONGゲーム画面">
 
 ### チャット拡大図
 
-<img src="/Users/user1/github/PONG_Online/readme_image/PONG2.png" alt="PONGチャット拡大図" title="PONGチャット拡大図">
+<img src="readme_image/PONG2.png" alt="PONGチャット拡大図" title="PONGチャット拡大図">
 
 ## 概要
 ( <http://threepipes.hateblo.jp/entry/2015/02/23/215343#fn-917a7738>のthreepipesさんの作ったブロック崩しをベースに作成しました。
